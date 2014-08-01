@@ -1,0 +1,4 @@
+
+ccdn_forum_user_board_show:
+    pattern: /{boardId}
+    defaults: { _controller: ccdn_forum_forum.controller.user_board:showAction, _locale: en, forumName: default }

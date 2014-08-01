@@ -1,0 +1,12 @@
+
+#ccdn_forum_user_category_index:
+#    pattern: /index
+#    defaults: { _controller: ccdn_forum_forum.controller.user_category:indexAction, _locale: en, forumName: default }
+
+ccdn_forum_user_category_index:
+    path:     /{forumName}
+    defaults: { _controller: ccdn_forum_forum.controller.user_category:indexAction, _locale: en, forumName: default }
+
+ccdn_forum_user_category_show:
+    path:     /{forumName}/category/{categoryId}
+    defaults: { _controller: ccdn_forum_forum.controller.user_category:showAction, _locale: en, forumName: default }
