@@ -1,28 +1,18 @@
-CCDNForum\ForumBundle\Entity\Topic:
+CCDNForum\ForumBundle\Entity\BasePost:
     type: mappedSuperclass
     id:
         id:
             type: integer
             generator: { strategy: AUTO }
     fields:
-        title:
-            type: string
-            length: 100
-        cachedViewCount:
-            type: integer
-            column: cached_view_count
-            nullable: false
-        cachedReplyCount:
-            type: integer
-            column: cached_reply_count
-            nullable: false
-        isClosed:
-            type: boolean
-            column: is_closed
-            nullable: false
-        closedDate:
+        body:
+            type: text
+        createdDate:
             type: datetime
-            column: closed_date
+            column: created_date
+        editedDate:
+            type: datetime
+            column: edited_date
             nullable: true
         isDeleted:
             type: boolean
@@ -32,56 +22,60 @@ CCDNForum\ForumBundle\Entity\Topic:
             type: datetime
             column: deleted_date
             nullable: true
-        isSticky:
-            type: boolean
-            column: is_sticky
-            nullable: false
-        stickiedDate:
+        unlockedDate:
             type: datetime
-            column: stickied_date
+            column: unlocked_date
+            nullable: true
+        unlockedUntilDate:
+            type: datetime
+            column: unlocked_until_date
             nullable: true
     manyToOne:
-        board:
-            targetEntity: CCDNForum\ForumBundle\Entity\Board
-            inversedBy: topics
+        topic:
+            targetEntity: CCDNForum\ForumBundle\Entity\Topic
             cascade: ["persist"]
+            inversedBy: posts
+            #nullable: true
             joinColumn:
-                name: fk_board_id
+                name: fk_topic_id
                 referencedColumnName: id
                 onDelete: SET NULL
-        firstPost:
-            targetEntity: CCDNForum\ForumBundle\Entity\Post
-            cascade: ["persist", "remove"]
-            joinColumn:
-                name: fk_first_post_id
-                referencedColumnName: id
-                onDelete: SET NULL
-        lastPost:
-            targetEntity: CCDNForum\ForumBundle\Entity\Post
-            cascade: ["persist", "remove"]
-            nullable: true
-            joinColumn:
-                name: fk_last_post_id
-                referencedColumnName: id
-                onDelete: SET NULL
-        closedBy:
+        createdBy:
             targetEntity: Symfony\Component\Security\Core\User\UserInterface
             cascade: []
+            nullable: true
             joinColumn:
-                name: fk_closed_by_user_id
+                name: fk_created_by_user_id
+                referencedColumnName: id
+                onDelete: SET NULL
+        editedBy:
+            targetEntity: Symfony\Component\Security\Core\User\UserInterface
+            cascade: []
+            nullable: true
+            joinColumn:
+                name: fk_edited_by_user_id
                 referencedColumnName: id
                 onDelete: SET NULL
         deletedBy:
             targetEntity: Symfony\Component\Security\Core\User\UserInterface
             cascade: []
+            nullable: true
             joinColumn:
                 name: fk_deleted_by_user_id
                 referencedColumnName: id
                 onDelete: SET NULL
-        stickiedBy:
+        unlockedBy:
             targetEntity: Symfony\Component\Security\Core\User\UserInterface
             cascade: []
+            nullable: true
             joinColumn:
-                name: fk_stickied_by_user_id
+                name: fk_unlocked_by_user_id
                 referencedColumnName: id
                 onDelete: SET NULL
+#        attachment:
+#            targetEntity: CCDNComponent\AttachmentBundle\Entity\Attachment
+#            cascade: ["persist"]
+#            joinColumn:
+#                name: fk_attachment_id
+#                referencedColumnName: id
+#                onDelete: SET NULL

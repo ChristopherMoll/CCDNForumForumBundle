@@ -1,0 +1,23 @@
+
+#
+# CRUD
+#
+ccdn_forum_user_topic_show:
+    pattern: /{topicId}
+    defaults: { _controller: ccdn_forum_forum.controller.user_topic:showAction, _locale: en, forumName: default }
+
+ccdn_forum_user_topic_create:
+    pattern: /create/for-board/{boardId}
+    defaults: { _controller: ccdn_forum_forum.controller.user_topic:createAction, _locale: en, forumName: default }
+
+ccdn_forum_user_topic_create_process:
+    pattern: /create/for-board/{boardId}/process
+    defaults: { _controller: ccdn_forum_forum.controller.user_topic:createProcessAction, _locale: en, forumName: default }
+
+ccdn_forum_user_topic_reply:
+    pattern: /{topicId}/reply
+    defaults: { _controller: ccdn_forum_forum.controller.user_topic:replyAction, _locale: en, forumName: default }
+
+ccdn_forum_user_topic_reply_process:
+    pattern: /{topicId}/reply/process
+    defaults: { _controller: ccdn_forum_forum.controller.user_topic:replyProcessAction, _locale: en, forumName: default }

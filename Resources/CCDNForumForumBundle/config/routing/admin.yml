@@ -1,0 +1,4 @@
+
+ccdn_forum_admin_index:
+    pattern: /
+    defaults: { _controller: ccdn_forum_forum.controller.admin_panel:indexAction, _locale: en }

@@ -27,7 +27,7 @@ use Symfony\Component\Security\Core\SecurityContextInterface;
  * @link     https://github.com/codeconsortium/CCDNForumForumBundle
  *
  */
-class Category extends AbstractCategory
+abstract class Category extends AbstractCategory
 {
     /**
      *

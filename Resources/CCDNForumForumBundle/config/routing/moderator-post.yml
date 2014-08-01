@@ -1,0 +1,16 @@
+
+ccdn_forum_moderator_post_lock:
+    pattern: /{postId}/lock
+    defaults: { _controller: CCDNForumForumBundle:ModeratorPost:lockAction, _locale: en }
+
+ccdn_forum_moderator_post_unlock:
+    pattern: /{postId}/unlock
+    defaults: { _controller: CCDNForumForumBundle:ModeratorPost:unlockAction, _locale: en }
+
+ccdn_forum_moderator_post_unlock_process:
+    pattern: /{postId}/unlock/process
+    defaults: { _controller: CCDNForumForumBundle:ModeratorPost:unlockProcessAction, _locale: en }
+
+ccdn_forum_moderator_post_restore:
+    pattern: /{postId}/restore
+    defaults: { _controller: CCDNForumForumBundle:ModeratorPost:restoreAction, _locale: en }

@@ -1,0 +1,36 @@
+
+ccdn_forum_moderator_topic_close:
+    pattern: /{topicId}/close
+    defaults: { _controller: ccdn_forum_forum.controller.moderator_topic:closeAction, _locale: en, forumName: default }
+
+ccdn_forum_moderator_topic_reopen:
+    pattern: /{topicId}/reopen
+    defaults: { _controller: ccdn_forum_forum.controller.moderator_topic:reopenAction, _locale: en, forumName: default }
+
+ccdn_forum_moderator_topic_sticky:
+    pattern: /{topicId}/sticky
+    defaults: { _controller: ccdn_forum_forum.controller.moderator_topic:stickyAction, _locale: en, forumName: default }
+
+ccdn_forum_moderator_topic_unsticky:
+    pattern: /{topicId}/unsticky
+    defaults: { _controller: ccdn_forum_forum.controller.moderator_topic:unstickyAction, _locale: en, forumName: default }
+
+ccdn_forum_moderator_topic_delete:
+    pattern: /{topicId}/delete
+    defaults: { _controller: ccdn_forum_forum.controller.moderator_topic:deleteAction, _locale: en, forumName: default }
+
+ccdn_forum_moderator_topic_delete_process:
+    pattern: /{topicId}/delete/process
+    defaults: { _controller: ccdn_forum_forum.controller.moderator_topic:deleteProcessAction, _locale: en, forumName: default }
+
+ccdn_forum_moderator_topic_restore:
+    pattern: /{topicId}/restore
+    defaults: { _controller: ccdn_forum_forum.controller.moderator_topic:restoreAction, _locale: en, forumName: default }
+
+ccdn_forum_moderator_topic_change_board:
+    pattern: /{topicId}/change-board
+    defaults: { _controller: ccdn_forum_forum.controller.moderator_topic:changeBoardAction, _locale: en, forumName: default }
+
+ccdn_forum_moderator_topic_change_board_process:
+    pattern: /{topicId}/change-board/process
+    defaults: { _controller: ccdn_forum_forum.controller.moderator_topic:changeBoardProcessAction, _locale: en, forumName: default }

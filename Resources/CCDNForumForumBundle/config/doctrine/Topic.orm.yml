@@ -1,0 +1,12 @@
+CCDNForum\ForumBundle\Entity\Topic:
+    type: entity
+    table: cc_forum_topic
+    oneToMany:
+        posts:
+            targetEntity: CCDNForum\ForumBundle\Entity\Post
+            mappedBy: topic
+            cascade: ["persist", "remove"]
+        subscriptions:
+            targetEntity: CCDNForum\ForumBundle\Entity\Subscription
+            mappedBy: topic
+            cascade: ["persist", "remove"]

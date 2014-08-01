@@ -26,7 +26,7 @@ use CCDNForum\ForumBundle\Entity\Model\Registry as AbstractRegistry;
  * @link     https://github.com/codeconsortium/CCDNForumForumBundle
  *
  */
-class Registry extends AbstractRegistry
+abstract class Registry extends AbstractRegistry
 {
     /**
      *

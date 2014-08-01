@@ -1,0 +1,8 @@
+CCDNForum\ForumBundle\Entity\Forum:
+    type: entity
+    table: cc_forum_forum
+    oneToMany:
+        categories:
+            targetEntity: CCDNForum\ForumBundle\Entity\Category
+            mappedBy: forum
+            cascade: ["persist", "remove"]

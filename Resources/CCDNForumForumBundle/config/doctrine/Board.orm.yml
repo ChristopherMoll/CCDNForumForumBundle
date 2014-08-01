@@ -1,0 +1,8 @@
+CCDNForum\ForumBundle\Entity\Board:
+    type: entity
+    table: cc_forum_board
+    oneToMany:
+        topics:
+            targetEntity: CCDNForum\ForumBundle\Entity\Topic
+            mappedBy: board
+            cascade: ["remove"]

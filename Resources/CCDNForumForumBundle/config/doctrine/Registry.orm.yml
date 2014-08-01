@@ -1,0 +1,3 @@
+CCDNForum\ForumBundle\Entity\Registry:
+    type: entity
+    table: cc_forum_registry

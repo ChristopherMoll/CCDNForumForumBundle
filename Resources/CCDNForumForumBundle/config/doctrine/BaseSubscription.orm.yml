@@ -1,4 +1,4 @@
-CCDNForum\ForumBundle\Entity\Subscription:
+CCDNForum\ForumBundle\Entity\BaseSubscription:
     type: mappedSuperclass
     id:
         id:

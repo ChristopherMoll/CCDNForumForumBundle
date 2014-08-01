@@ -1,0 +1,151 @@
+parameters:
+
+    # Service Parameters defined in app/config.
+
+services:
+
+    ccdn_forum_forum.controller.base:
+#        class: %ccdn_forum_forum.controller.base.class%
+        abstract:  true
+        calls:
+            - [setTemplating, [@templating]]
+            - [setRouter, [@router]]
+            - [setRequest, [@request_stack]]
+            - [setDispatcher, [@event_dispatcher]]
+            - [setEngine, [%ccdn_forum_forum.template.engine%]]
+            - [setSecurityContext, [@security.context]]
+            - [setAuthorizer, [@ccdn_forum_forum.component.security.authorizer]]
+            - [setForumModel, [@ccdn_forum_forum.model.forum]]
+            - [setCategoryModel, [@ccdn_forum_forum.model.category]]
+            - [setBoardModel, [@ccdn_forum_forum.model.board]]
+            - [setTopicModel, [@ccdn_forum_forum.model.topic]]
+            - [setPostModel, [@ccdn_forum_forum.model.post]]
+            - [setRegistryModel, [@ccdn_forum_forum.model.registry]]
+            - [setSubscriptionModel, [@ccdn_forum_forum.model.subscription]]
+            - [setCrumbs, [@ccdn_forum_forum.component.crumb_builder]]
+            - [setPageHelper, [@ccdn_forum_forum.component.helper.pagination_config]]
+
+
+#################
+# ADMIN SECTION #
+#################
+    ccdn_forum_forum.controller.admin_board_base:
+        class: %ccdn_forum_forum.controller.admin_board_base.class%
+        arguments:
+            - @ccdn_forum_forum.form.handler.board_create
+            - @ccdn_forum_forum.form.handler.board_update
+            - @ccdn_forum_forum.form.handler.board_delete
+        parent: ccdn_forum_forum.controller.base
+        abstract: true
+
+    ccdn_forum_forum.controller.admin_board:
+        class: %ccdn_forum_forum.controller.admin_board.class%
+        parent: ccdn_forum_forum.controller.admin_board_base
+
+    ccdn_forum_forum.controller.admin_category_base:
+        class: %ccdn_forum_forum.controller.admin_category_base.class%
+        arguments:
+            - @ccdn_forum_forum.form.handler.category_create
+            - @ccdn_forum_forum.form.handler.category_update
+            - @ccdn_forum_forum.form.handler.category_delete
+        parent: ccdn_forum_forum.controller.base
+        abstract: true
+
+    ccdn_forum_forum.controller.admin_category:
+        class: %ccdn_forum_forum.controller.admin_category.class%
+        parent: ccdn_forum_forum.controller.admin_category_base
+
+    ccdn_forum_forum.controller.admin_forum_base:
+        class: %ccdn_forum_forum.controller.admin_forum.class%
+        arguments:
+            - @ccdn_forum_forum.form.handler.forum_create
+            - @ccdn_forum_forum.form.handler.forum_update
+            - @ccdn_forum_forum.form.handler.forum_delete
+        abstract: true
+        parent: ccdn_forum_forum.controller.base
+
+    ccdn_forum_forum.controller.admin_forum:
+        class: %ccdn_forum_forum.controller.admin_forum.class%
+        parent: ccdn_forum_forum.controller.admin_forum_base
+
+    ccdn_forum_forum.controller.admin_panel:
+        class: %ccdn_forum_forum.controller.admin_panel.class%
+        parent: ccdn_forum_forum.controller.base
+
+
+#####################
+# MODERATOR SECTION #
+#####################
+
+#    ccdn_forum_forum.controller.moderator_post_base:
+#        class: %ccdn_forum_forum.controller.moderator_post_base.class%
+##        arguments:
+##            - @ccdn_forum_forum.form.handler.post_unlock
+#        parent: ccdn_forum_forum.controller.base
+#        abstract: true
+
+    ccdn_forum_forum.controller.moderator_post:
+        class: %ccdn_forum_forum.controller.moderator_post.class%
+        calls:
+            - [setPostUnlockFormHandler, [@ccdn_forum_forum.form.handler.post_unlock]]
+            - [setSecurityContext, [@security.context]]
+        parent: ccdn_forum_forum.controller.base
+
+    ccdn_forum_forum.controller.moderator_topic_base:
+        class: %ccdn_forum_forum.controller.moderator_topic_base.class%
+        parent: ccdn_forum_forum.controller.base
+        arguments:
+            - @ccdn_forum_forum.form.handler.topic_create
+            - @ccdn_forum_forum.form.handler.change_topics_board
+        abstract: true
+
+    ccdn_forum_forum.controller.moderator_topic:
+        class: %ccdn_forum_forum.controller.moderator_topic.class%
+        parent: ccdn_forum_forum.controller.moderator_topic_base
+
+
+################
+# USER SECTION #
+################
+
+    ccdn_forum_forum.controller.user_board:
+        class: %ccdn_forum_forum.controller.user_board.class%
+        parent: ccdn_forum_forum.controller.base
+        arguments:
+            - %ccdn_forum_forum.topic.user.show.posts_per_page%
+
+    ccdn_forum_forum.controller.user_category:
+        class: %ccdn_forum_forum.controller.user_category.class%
+        arguments: ['%ccdn_forum_forum.board.user.show.topics_per_page%']
+        parent: ccdn_forum_forum.controller.base
+
+    ccdn_forum_forum.controller.user_post_base:
+        class: %ccdn_forum_forum.controller.user_post_base.class%
+        arguments:
+            - @ccdn_forum_forum.form.handler.post_update
+            - @ccdn_forum_forum.form.handler.post_delete
+            - @ccdn_forum_forum.form.handler.topic_update
+        parent: ccdn_forum_forum.controller.base
+        abstract: true
+
+    ccdn_forum_forum.controller.user_post:
+        class: %ccdn_forum_forum.controller.user_post.class%
+        parent: ccdn_forum_forum.controller.user_post_base
+
+    ccdn_forum_forum.controller.user_subscription:
+        class: %ccdn_forum_forum.controller.user_subscription.class%
+        arguments: ['%ccdn_forum_forum.board.user.show.topics_per_page%']
+        parent: ccdn_forum_forum.controller.base
+
+    ccdn_forum_forum.controller.user_topic_base:
+        class: %ccdn_forum_forum.controller.user_topic_base.class%
+        arguments:
+            - @ccdn_forum_forum.form.handler.post_create
+            - @ccdn_forum_forum.form.handler.topic_create
+        parent: ccdn_forum_forum.controller.base
+        abstract: true
+
+    ccdn_forum_forum.controller.user_topic:
+        class: %ccdn_forum_forum.controller.user_topic.class%
+        parent: ccdn_forum_forum.controller.user_topic_base
+

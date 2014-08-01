@@ -1,4 +1,4 @@
-CCDNForum\ForumBundle\Entity\Registry:
+CCDNForum\ForumBundle\Entity\BaseRegistry:
     type: mappedSuperclass
     id:
         id:

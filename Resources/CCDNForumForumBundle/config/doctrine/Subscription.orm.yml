@@ -1,0 +1,3 @@
+CCDNForum\ForumBundle\Entity\Subscription:
+    type: entity
+    table: cc_forum_subscription

@@ -26,7 +26,7 @@ use CCDNForum\ForumBundle\Entity\Model\Topic as AbstractTopic;
  * @link     https://github.com/codeconsortium/CCDNForumForumBundle
  *
  */
-class Topic extends AbstractTopic
+abstract class Topic extends AbstractTopic
 {
     /**
      *

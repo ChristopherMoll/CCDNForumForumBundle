@@ -1,4 +1,4 @@
-CCDNForum\ForumBundle\Entity\Category:
+CCDNForum\ForumBundle\Entity\BaseCategory:
     type: mappedSuperclass
     id:
         id:

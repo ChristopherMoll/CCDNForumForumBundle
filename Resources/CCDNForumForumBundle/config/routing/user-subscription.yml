@@ -1,0 +1,12 @@
+
+ccdn_forum_user_subscription_index:
+    pattern: /
+    defaults: { _controller: ccdn_forum_forum.controller.user_subscription:indexAction, _locale: en }
+
+ccdn_forum_user_subscription_subscribe:
+    pattern: /topic/{topicId}/subscribe
+    defaults: { _controller: ccdn_forum_forum.controller.user_subscription:subscribeAction, _locale: en }
+
+ccdn_forum_user_subscription_unsubscribe:
+    pattern: /topic/{topicId}/unsubscribe
+    defaults: { _controller: ccdn_forum_forum.controller.user_subscription:unsubscribeAction, _locale: en }

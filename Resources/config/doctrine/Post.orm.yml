@@ -1,6 +1,5 @@
 CCDNForum\ForumBundle\Entity\Post:
-    type: entity
-    table: cc_forum_post
+    type: mappedSuperclass
     id:
         id:
             type: integer

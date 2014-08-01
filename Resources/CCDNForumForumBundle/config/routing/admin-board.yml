@@ -1,0 +1,36 @@
+
+ccdn_forum_admin_board_list:
+    pattern: /
+    defaults: { _controller: ccdn_forum_forum.controller.admin_board:listAction, _locale: en }
+
+ccdn_forum_admin_board_create:
+    pattern: /create
+    defaults: { _controller: ccdn_forum_forum.controller.admin_board:createAction, _locale: en }
+
+ccdn_forum_admin_board_create_process:
+    pattern: /create/process
+    defaults: { _controller: ccdn_forum_forum.controller.admin_board:createProcessAction, _locale: en }
+
+ccdn_forum_admin_board_edit:
+    pattern: /edit/{boardId}
+    defaults: { _controller: ccdn_forum_forum.controller.admin_board:editAction, _locale: en }
+
+ccdn_forum_admin_board_edit_process:
+    pattern: /edit/{boardId}/process
+    defaults: { _controller: ccdn_forum_forum.controller.admin_board:editProcessAction, _locale: en }
+
+ccdn_forum_admin_board_delete:
+    pattern: /delete/{boardId}
+    defaults: { _controller: ccdn_forum_forum.controller.admin_board:deleteAction, _locale: en }
+
+ccdn_forum_admin_board_delete_process:
+    pattern: /delete/{boardId}/process
+    defaults: { _controller: ccdn_forum_forum.controller.admin_board:deleteProcessAction, _locale: en }
+
+ccdn_forum_admin_board_reorder_up:
+    pattern: /reorder/{boardId}/up
+    defaults: { _controller: ccdn_forum_forum.controller.admin_board:reorderAction, _locale: en, direction: 0 }
+
+ccdn_forum_admin_board_reorder_down:
+    pattern: /reorder/{boardId}/down
+    defaults: { _controller: ccdn_forum_forum.controller.admin_board:reorderAction, _locale: en, direction: 1 }

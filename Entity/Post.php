@@ -14,6 +14,7 @@
 namespace CCDNForum\ForumBundle\Entity;
 
 use CCDNForum\ForumBundle\Entity\Model\Post as AbstractPost;
+use Doctrine\ORM\Mapping as ORM;
 
 /**
  *
@@ -26,13 +27,20 @@ use CCDNForum\ForumBundle\Entity\Model\Post as AbstractPost;
  * @link     https://github.com/codeconsortium/CCDNForumForumBundle
  *
  */
-class Post extends AbstractPost
+
+/**
+ * Class Post
+ * @package CCDNForum\ForumBundle\Entity\Superclass
+ * @ORM\MappedSuperclass()
+ */
+abstract class Post extends AbstractPost
 {
     /**
      *
-     * @var integer $id
+     * @var integer
      */
     protected $id;
+
 
     /**
      *

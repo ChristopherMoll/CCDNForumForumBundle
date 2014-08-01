@@ -26,7 +26,7 @@ use CCDNForum\ForumBundle\Entity\Model\Subscription as AbstractSubscription;
  * @link     https://github.com/codeconsortium/CCDNForumForumBundle
  *
  */
-class Subscription extends AbstractSubscription
+abstract class Subscription extends AbstractSubscription
 {
     /**
      *
