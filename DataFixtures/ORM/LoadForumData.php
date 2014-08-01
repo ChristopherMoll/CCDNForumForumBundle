@@ -13,6 +13,7 @@
 
 namespace CCDNForum\ForumBundle\DataFixtures\ORM;
 
+use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -38,6 +39,9 @@ use CCDNForum\ForumBundle\Entity\Post;
  */
 class LoadForumData extends AbstractFixture implements OrderedFixtureInterface, ContainerAwareInterface
 {
+    /**
+     * @var Container
+     */
     protected $container;
 
     public function setContainer(ContainerInterface $container = null)
@@ -57,7 +61,8 @@ class LoadForumData extends AbstractFixture implements OrderedFixtureInterface, 
 
     protected function createCategory($name, $order)
     {
-        $category = new Category();
+        $categoryClass = $this->container->getParameter('ccdn_forum_forum.entity.category.class');
+        $category = new $categoryClass();
 
         $category->setName($name);
         $category->setListOrderPriority($order);
@@ -67,7 +72,8 @@ class LoadForumData extends AbstractFixture implements OrderedFixtureInterface, 
 
     protected function createBoard($category, $order, $name, $description, $cachedTopicCount, $cachedPostCount, array $boardReadRoles = array(), array $topicCreateRoles = array(), array $topicReplyRoles = array())
     {
-        $board = new Board();
+        $boardClass = $this->container->getParameter('ccdn_forum_forum.entity.board.class');
+        $board = new $boardClass();
 
         $board->setCategory($category);
         $board->setName($name);
@@ -84,7 +90,8 @@ class LoadForumData extends AbstractFixture implements OrderedFixtureInterface, 
 
     protected function createTopic($board, $title)
     {
-        $topic = new Topic();
+        $topicClass = $this->container->getParameter('ccdn_forum_forum.entity.topic.class');
+        $topic = new $topicClass();
 
         $topic->setBoard($board);
         $topic->setTitle($title);
@@ -99,7 +106,8 @@ class LoadForumData extends AbstractFixture implements OrderedFixtureInterface, 
 
     protected function createPost($topic, $body, $author)
     {
-        $post = new Post();
+        $postClass = $this->container->getParameter('ccdn_forum_forum.entity.post.class');
+        $post = new $postClass();
 
         $post->setTopic($topic);
         $post->setCreatedBy($author);

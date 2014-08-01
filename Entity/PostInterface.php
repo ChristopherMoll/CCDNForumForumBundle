@@ -26,13 +26,23 @@ use Symfony\Component\Security\Core\SecurityContextInterface;
  * @link     https://github.com/codeconsortium/CCDNForumForumBundle
  *
  */
-interface ForumInterface
+interface PostInterface
 {
     public function getId();
-    public function getName();
-    public function setName($name);
-    public function getReadAuthorisedRoles();
-    public function setReadAuthorisedRoles(array $roles = null);
-    public function hasReadAuthorisedRole($role);
-    public function isAuthorisedToRead(SecurityContextInterface $securityContext);
+    public function getBody();
+    public function setBody($body);
+    public function getCreatedDate();
+    public function setCreatedDate($createdDate);
+    public function getEditedDate();
+    public function setEditedDate($editedDate);
+    public function isDeleted();
+    public function setDeleted($isDeleted);
+    public function getDeletedDate();
+    public function setDeletedDate($deletedDate);
+    public function getUnlockedDate();
+    public function setUnlockedDate(\Datetime $datetime);
+    public function getUnlockedUntilDate();
+    public function setUnlockedUntilDate(\Datetime $datetime);
+    public function isLocked();
+
 }

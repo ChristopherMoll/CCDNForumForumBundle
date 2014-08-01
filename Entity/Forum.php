@@ -27,7 +27,7 @@ use Symfony\Component\Security\Core\SecurityContextInterface;
  * @link     https://github.com/codeconsortium/CCDNForumForumBundle
  *
  */
-abstract class Forum extends AbstractForum
+abstract class Forum extends AbstractForum implements ForumInterface
 {
     /**
      *
@@ -87,6 +87,7 @@ abstract class Forum extends AbstractForum
     /**
      * Set name
      *
+     * @param $name
      * @return Forum
      */
     public function setName($name)

@@ -18,7 +18,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use CCDNForum\ForumBundle\Model\Component\Manager\ManagerInterface;
 use CCDNForum\ForumBundle\Model\Component\Manager\BaseManager;
 
-use CCDNForum\ForumBundle\Entity\Board;
+use CCDNForum\ForumBundle\Entity\BoardInterface;
 
 /**
  *
@@ -46,10 +46,10 @@ class BoardManager extends BaseManager implements ManagerInterface
     /**
      *
      * @access public
-     * @param  \CCDNForum\ForumBundle\Entity\Board             $board
+     * @param \CCDNForum\ForumBundle\Entity\BoardInterface $board
      * @return \CCDNForum\ForumBundle\Manager\ManagerInterface
      */
-    public function saveBoard(Board $board)
+    public function saveBoard(BoardInterface $board)
     {
         $boardCount = $this->model->getBoardCount();
         $board->setListOrderPriority(++$boardCount);
@@ -62,10 +62,10 @@ class BoardManager extends BaseManager implements ManagerInterface
     /**
      *
      * @access public
-     * @param  \CCDNForum\ForumBundle\Entity\Board             $board
+     * @param \CCDNForum\ForumBundle\Entity\BoardInterface $board
      * @return \CCDNForum\ForumBundle\Manager\ManagerInterface
      */
-    public function updateBoard(Board $board)
+    public function updateBoard(BoardInterface $board)
     {
         $this->gateway->updateBoard($board);
 
@@ -75,10 +75,10 @@ class BoardManager extends BaseManager implements ManagerInterface
     /**
      *
      * @access public
-     * @param  \CCDNForum\ForumBundle\Entity\Board             $board
+     * @param \CCDNForum\ForumBundle\Entity\BoardInterface $board
      * @return \CCDNForum\ForumBundle\Manager\ManagerInterface
      */
-    public function deleteBoard(Board $board)
+    public function deleteBoard(BoardInterface $board)
     {
         // If we do not refresh the board, AND we have reassigned the topics to null,
         // then its lazy-loaded topics are dirty, as the topics in memory will still
@@ -93,11 +93,11 @@ class BoardManager extends BaseManager implements ManagerInterface
     /**
      *
      * @access public
-     * @param  \Doctrine\Common\Collections\ArrayCollection    $topics
-     * @param  \CCDNForum\ForumBundle\Entity\Board             $board
+     * @param  \Doctrine\Common\Collections\ArrayCollection $topics
+     * @param \CCDNForum\ForumBundle\Entity\BoardInterface $board
      * @return \CCDNForum\ForumBundle\Manager\ManagerInterface
      */
-    public function reassignTopicsToBoard(ArrayCollection $topics, Board $board = null)
+    public function reassignTopicsToBoard(ArrayCollection $topics, BoardInterface $board = null)
     {
         foreach ($topics as $topic) {
             $topic->setBoard($board);
@@ -112,12 +112,12 @@ class BoardManager extends BaseManager implements ManagerInterface
     /**
      *
      * @access public
-     * @param  Array                                           $boards
-     * @param  \CCDNForum\ForumBundle\Entity\Board             $boardShift
-     * @param  int                                             $direction
+     * @param  Array $boards
+     * @param \CCDNForum\ForumBundle\Entity\BoardInterface $boardShift
+     * @param  int $direction
      * @return \CCDNForum\ForumBundle\Manager\ManagerInterface
      */
-    public function reorderBoards($boards, Board $boardShift, $direction)
+    public function reorderBoards($boards, BoardInterface $boardShift, $direction)
     {
         $boardCount = (count($boards) - 1);
 

@@ -27,7 +27,7 @@ use Symfony\Component\Security\Core\SecurityContextInterface;
  * @link     https://github.com/codeconsortium/CCDNForumForumBundle
  *
  */
-abstract class Category extends AbstractCategory
+abstract class Category extends AbstractCategory implements CategoryInterface
 {
     /**
      *
@@ -61,7 +61,6 @@ abstract class Category extends AbstractCategory
     {
         parent::__construct();
 
-        // your own logic
         $this->readAuthorisedRoles = array();
     }
 

@@ -16,7 +16,7 @@ namespace CCDNForum\ForumBundle\Model\FrontModel;
 use Symfony\Component\Security\Core\User\UserInterface;
 use CCDNForum\ForumBundle\Model\FrontModel\BaseModel;
 use CCDNForum\ForumBundle\Model\FrontModel\ModelInterface;
-use CCDNForum\ForumBundle\Entity\Topic;
+use CCDNForum\ForumBundle\Entity\TopicInterface;
 
 /**
  *
@@ -94,7 +94,7 @@ class TopicModel extends BaseModel implements ModelInterface
     /**
      *
      * @access public
-     * @param  int                                 $topicId
+     * @param $boardId
      * @return \CCDNForum\ForumBundle\Entity\Topic
      */
     public function findLastTopicForBoardByIdWithLastPost($boardId)
@@ -118,10 +118,10 @@ class TopicModel extends BaseModel implements ModelInterface
      * Post must have a set topic for topic to be set correctly.
      *
      * @access public
-     * @param  \CCDNForum\ForumBundle\Entity\Post                              $post
+     * @param \CCDNForum\ForumBundle\Entity\TopicInterface $topic
      * @return \CCDNForum\ForumBundle\Model\Component\Manager\ManagerInterface
      */
-    public function saveTopic(Topic $topic)
+    public function saveTopic(TopicInterface $topic)
     {
         return $this->getManager()->saveTopic($topic);
     }
@@ -129,10 +129,10 @@ class TopicModel extends BaseModel implements ModelInterface
     /**
      *
      * @access public
-     * @param  \CCDNForum\ForumBundle\Entity\Topic                             $topic
+     * @param \CCDNForum\ForumBundle\Entity\TopicInterface $topic
      * @return \CCDNForum\ForumBundle\Model\Component\Manager\ManagerInterface
      */
-    public function updateTopic(Topic $topic)
+    public function updateTopic(TopicInterface $topic)
     {
         return $this->getManager()->updateTopic($topic);
     }
@@ -140,10 +140,10 @@ class TopicModel extends BaseModel implements ModelInterface
     /**
      *
      * @access public
-     * @param  \CCDNForum\ForumBundle\Entity\Topic                             $topic
+     * @param \CCDNForum\ForumBundle\Entity\TopicInterface $topic
      * @return \CCDNForum\ForumBundle\Model\Component\Manager\ManagerInterface
      */
-    public function incrementViewCounter(Topic $topic)
+    public function incrementViewCounter(TopicInterface $topic)
     {
         return $this->getManager()->incrementViewCounter($topic);
     }
@@ -151,10 +151,10 @@ class TopicModel extends BaseModel implements ModelInterface
     /**
      *
      * @access public
-     * @param  \CCDNForum\ForumBundle\Entity\Topic                             $topic
+     * @param \CCDNForum\ForumBundle\Entity\TopicInterface $topic
      * @return \CCDNForum\ForumBundle\Model\Component\Manager\ManagerInterface
      */
-    public function restore(Topic $topic)
+    public function restore(TopicInterface $topic)
     {
         return $this->getManager()->restore($topic);
     }
@@ -162,11 +162,11 @@ class TopicModel extends BaseModel implements ModelInterface
     /**
      *
      * @access public
-     * @param  \CCDNForum\ForumBundle\Entity\Topic                             $topic
-     * @param  \Symfony\Component\Security\Core\User\UserInterface             $user
+     * @param \CCDNForum\ForumBundle\Entity\TopicInterface $topic
+     * @param  \Symfony\Component\Security\Core\User\UserInterface $user
      * @return \CCDNForum\ForumBundle\Model\Component\Manager\ManagerInterface
      */
-    public function softDelete(Topic $topic, UserInterface $user)
+    public function softDelete(TopicInterface $topic, UserInterface $user)
     {
         return $this->getManager()->softDelete($topic, $user);
     }
@@ -174,11 +174,11 @@ class TopicModel extends BaseModel implements ModelInterface
     /**
      *
      * @access public
-     * @param  \CCDNForum\ForumBundle\Entity\Topic                             $topic
-     * @param  \Symfony\Component\Security\Core\User\UserInterface             $user
+     * @param \CCDNForum\ForumBundle\Entity\TopicInterface $topic
+     * @param  \Symfony\Component\Security\Core\User\UserInterface $user
      * @return \CCDNForum\ForumBundle\Model\Component\Manager\ManagerInterface
      */
-    public function sticky(Topic $topic, UserInterface $user)
+    public function sticky(TopicInterface $topic, UserInterface $user)
     {
         return $this->getManager()->sticky($topic, $user);
     }
@@ -186,10 +186,10 @@ class TopicModel extends BaseModel implements ModelInterface
     /**
      *
      * @access public
-     * @param  \CCDNForum\ForumBundle\Entity\Topic                             $topic
+     * @param \CCDNForum\ForumBundle\Entity\TopicInterface $topic
      * @return \CCDNForum\ForumBundle\Model\Component\Manager\ManagerInterface
      */
-    public function unsticky(Topic $topic)
+    public function unsticky(TopicInterface $topic)
     {
         return $this->getManager()->unsticky($topic);
     }
@@ -197,11 +197,11 @@ class TopicModel extends BaseModel implements ModelInterface
     /**
      *
      * @access public
-     * @param  \CCDNForum\ForumBundle\Entity\Topic                             $topic
-     * @param  \Symfony\Component\Security\Core\User\UserInterface             $user
+     * @param \CCDNForum\ForumBundle\Entity\TopicInterface $topic
+     * @param  \Symfony\Component\Security\Core\User\UserInterface $user
      * @return \CCDNForum\ForumBundle\Model\Component\Manager\ManagerInterface
      */
-    public function close(Topic $topic, UserInterface $user)
+    public function close(TopicInterface $topic, UserInterface $user)
     {
         return $this->getManager()->close($topic, $user);
     }
@@ -209,10 +209,10 @@ class TopicModel extends BaseModel implements ModelInterface
     /**
      *
      * @access public
-     * @param  \CCDNForum\ForumBundle\Entity\Topic                             $topic
+     * @param \CCDNForum\ForumBundle\Entity\TopicInterface $topic
      * @return \CCDNForum\ForumBundle\Model\Component\Manager\ManagerInterface
      */
-    public function reopen(Topic $topic)
+    public function reopen(TopicInterface $topic)
     {
         return $this->getManager()->reopen($topic);
     }

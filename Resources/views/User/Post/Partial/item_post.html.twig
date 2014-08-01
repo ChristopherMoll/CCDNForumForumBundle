@@ -27,7 +27,7 @@
 
 	<div class="col-md-12">
 		<article class="row panel {{ panel }} clearfix" {%- if post.id %} id="{{- post.getBody |slice(0,24) -}}"{#id="post_{{- post.getId -}}"#}{%- endif -%}>
-
+                                     admin
 		    <header class="panel-heading">
 		        {%- include 'CCDNForumForumBundle:User:Post/Partial/item_post_head.html.twig' with {'post': post } -%}
 			</header>

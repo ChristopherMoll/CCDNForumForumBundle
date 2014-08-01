@@ -13,6 +13,7 @@
 
 namespace CCDNForum\ForumBundle\Component\Dispatcher\Event;
 
+use CCDNForum\ForumBundle\Entity\BoardInterface;
 use Symfony\Component\EventDispatcher\Event;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -49,9 +50,9 @@ class AdminBoardEvent extends Event
      *
      * @access public
      * @param \Symfony\Component\HttpFoundation\Request $request
-     * @param \CCDNForum\ForumBundle\Entity\Board       $board
+     * @param \CCDNForum\ForumBundle\Entity\BoardInterface $board
      */
-    public function __construct(Request $request, Board $board = null)
+    public function __construct(Request $request, BoardInterface $board = null)
     {
         $this->request = $request;
         $this->board = $board;

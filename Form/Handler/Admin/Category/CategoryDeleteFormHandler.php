@@ -13,6 +13,7 @@
 
 namespace CCDNForum\ForumBundle\Form\Handler\Admin\Category;
 
+use CCDNForum\ForumBundle\Entity\CategoryInterface;
 use Symfony\Component\Form\Form;
 use Symfony\Component\Form\FormFactory;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface ;
@@ -62,10 +63,10 @@ class CategoryDeleteFormHandler extends BaseFormHandler
     /**
      *
      * @access public
-     * @param \Symfony\Component\EventDispatcher\EventDispatcherInterface            $dispatcher
-     * @param \Symfony\Component\Form\FormFactory                                    $factory
-     * @param \CCDNForum\ForumBundle\Form\Type\Admin\Category\CategoryDeleteFormType $categoryDeleteFormType
-     * @param \CCDNForum\ForumBundle\Model\FrontModel\CategoryModel                  $categoryModel
+     * @param \Symfony\Component\EventDispatcher\EventDispatcherInterface $dispatcher
+     * @param \Symfony\Component\Form\FormFactory $factory
+     * @param $categoryDeleteFormType
+     * @param \CCDNForum\ForumBundle\Model\FrontModel\ModelInterface $categoryModel
      */
     public function __construct(EventDispatcherInterface $dispatcher, FormFactory $factory, $categoryDeleteFormType, ModelInterface $categoryModel)
     {
@@ -78,10 +79,10 @@ class CategoryDeleteFormHandler extends BaseFormHandler
     /**
      *
      * @access public
-     * @param  \CCDNForum\ForumBundle\Entity\Category                                       $category
+     * @param \CCDNForum\ForumBundle\Entity\CategoryInterface $category
      * @return \CCDNForum\ForumBundle\Form\Handler\Admin\Category\CategoryDeleteFormHandler
      */
-    public function setCategory(Category $category)
+    public function setCategory(CategoryInterface $category)
     {
         $this->category = $category;
 
@@ -91,12 +92,13 @@ class CategoryDeleteFormHandler extends BaseFormHandler
     /**
      *
      * @access public
+     * @throws \Exception
      * @return \Symfony\Component\Form\Form
      */
     public function getForm()
     {
         if (null == $this->form) {
-            if (!is_object($this->category) && !$this->category instanceof Category) {
+            if (!is_object($this->category) && !$this->category instanceof CategoryInterface) {
                 throw new \Exception('Category object must be specified to delete.');
             }
 
@@ -111,9 +113,9 @@ class CategoryDeleteFormHandler extends BaseFormHandler
     /**
      *
      * @access protected
-     * @param \CCDNForum\ForumBundle\Entity\Category $category
+     * @param \CCDNForum\ForumBundle\Entity\CategoryInterface $category
      */
-    protected function onSuccess(Category $category)
+    protected function onSuccess(CategoryInterface $category)
     {
         $this->dispatcher->dispatch(ForumEvents::ADMIN_CATEGORY_DELETE_SUCCESS, new AdminCategoryEvent($this->request, $category));
 

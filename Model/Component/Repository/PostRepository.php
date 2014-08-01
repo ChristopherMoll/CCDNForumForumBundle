@@ -50,10 +50,10 @@ class PostRepository extends BaseRepository implements RepositoryInterface
 
         $qb
             ->join('p.topic', 't')
-                ->leftJoin('t.firstPost', 'fp')
-                    ->leftJoin('fp.createdBy', 'fp_author')
-                ->leftJoin('t.lastPost', 'lp')
-                    ->leftJoin('lp.createdBy', 'lp_author')
+            ->leftJoin('t.firstPost', 'fp')
+            ->leftJoin('fp.createdBy', 'fp_author')
+            ->leftJoin('t.lastPost', 'lp')
+            ->leftJoin('lp.createdBy', 'lp_author')
             ->leftJoin('p.createdBy', 'p_createdBy')
             ->leftJoin('p.editedBy', 'p_editedBy')
             ->leftJoin('p.deletedBy', 'p_deletedBy')

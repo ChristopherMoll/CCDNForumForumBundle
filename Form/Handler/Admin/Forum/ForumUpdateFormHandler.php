@@ -21,7 +21,7 @@ use CCDNForum\ForumBundle\Component\Dispatcher\ForumEvents;
 use CCDNForum\ForumBundle\Component\Dispatcher\Event\AdminForumEvent;
 use CCDNForum\ForumBundle\Form\Handler\BaseFormHandler;
 use CCDNForum\ForumBundle\Model\FrontModel\ModelInterface;
-use CCDNForum\ForumBundle\Entity\Forum;
+use CCDNForum\ForumBundle\Entity\ForumInterface;
 
 /**
  *
@@ -60,10 +60,10 @@ class ForumUpdateFormHandler extends BaseFormHandler
     /**
      *
      * @access public
-     * @param \Symfony\Component\EventDispatcher\EventDispatcherInterface      $dispatcher
-     * @param \Symfony\Component\Form\FormFactory                              $factory
-     * @param \CCDNForum\ForumBundle\Form\Type\Admin\Forum\ForumUpdateFormType $forumUpdateFormType
-     * @param \CCDNForum\ForumBundle\Model\FrontModel\ForumModel               $forumModel
+     * @param \Symfony\Component\EventDispatcher\EventDispatcherInterface $dispatcher
+     * @param \Symfony\Component\Form\FormFactory $factory
+     * @param $forumUpdateFormType
+     * @param \CCDNForum\ForumBundle\Model\FrontModel\ModelInterface $forumModel
      */
     public function __construct(EventDispatcherInterface $dispatcher, FormFactory $factory, $forumUpdateFormType, ModelInterface $forumModel)
     {
@@ -76,10 +76,10 @@ class ForumUpdateFormHandler extends BaseFormHandler
     /**
      *
      * @access public
-     * @param  \CCDNForum\ForumBundle\Entity\Forum                                    $forum
+     * @param \CCDNForum\ForumBundle\Entity\ForumInterface $forum
      * @return \CCDNForum\ForumBundle\Form\Handler\Admin\Forum\ForumUpdateFormHandler
      */
-    public function setForum(Forum $forum)
+    public function setForum(ForumInterface $forum)
     {
         $this->forum = $forum;
 
@@ -89,12 +89,13 @@ class ForumUpdateFormHandler extends BaseFormHandler
     /**
      *
      * @access public
-     * @return \Symfony\Component\Form\Form
+     * @throws \Exception
+     * @return \Symfony\Component\Form\Form|\Symfony\Component\Form\FormInterface
      */
     public function getForm()
     {
         if (null == $this->form) {
-            if (!is_object($this->forum) && !$this->forum instanceof Forum) {
+            if (!is_object($this->forum) && !$this->forum instanceof ForumInterface) {
                 throw new \Exception('Forum object must be specified to edit.');
             }
 
@@ -109,9 +110,9 @@ class ForumUpdateFormHandler extends BaseFormHandler
     /**
      *
      * @access protected
-     * @param \CCDNForum\ForumBundle\Entity\Forum $forum
+     * @param \CCDNForum\ForumBundle\Entity\ForumInterface $forum
      */
-    protected function onSuccess(Forum $forum)
+    protected function onSuccess(ForumInterface $forum)
     {
         $this->dispatcher->dispatch(ForumEvents::ADMIN_FORUM_EDIT_SUCCESS, new AdminForumEvent($this->request, $forum));
 

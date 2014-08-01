@@ -16,7 +16,7 @@ namespace CCDNForum\ForumBundle\Model\Component\Gateway;
 use Doctrine\ORM\QueryBuilder;
 use CCDNForum\ForumBundle\Model\Component\Gateway\GatewayInterface;
 use CCDNForum\ForumBundle\Model\Component\Gateway\BaseGateway;
-use CCDNForum\ForumBundle\Entity\Subscription;
+use CCDNForum\ForumBundle\Entity\SubscriptionInterface;
 
 /**
  *
@@ -99,10 +99,10 @@ class SubscriptionGateway extends BaseGateway implements GatewayInterface
     /**
      *
      * @access public
-     * @param  \CCDNForum\ForumBundle\Entity\Subscription                      $subscription
+     * @param \CCDNForum\ForumBundle\Entity\SubscriptionInterface $subscription
      * @return \CCDNForum\ForumBundle\Model\Component\Gateway\GatewayInterface
      */
-    public function saveSubscription(Subscription $subscription)
+    public function saveSubscription(SubscriptionInterface $subscription)
     {
         $this->persist($subscription)->flush();
 
@@ -112,10 +112,10 @@ class SubscriptionGateway extends BaseGateway implements GatewayInterface
     /**
      *
      * @access public
-     * @param  \CCDNForum\ForumBundle\Entity\Subscription                      $subscription
+     * @param \CCDNForum\ForumBundle\Entity\SubscriptionInterface $subscription
      * @return \CCDNForum\ForumBundle\Model\Component\Gateway\GatewayInterface
      */
-    public function updateSubscription(Subscription $subscription)
+    public function updateSubscription(SubscriptionInterface $subscription)
     {
         $this->persist($subscription)->flush();
 
@@ -125,10 +125,10 @@ class SubscriptionGateway extends BaseGateway implements GatewayInterface
     /**
      *
      * @access public
-     * @param  \CCDNForum\ForumBundle\Entity\Subscription                      $subscription
+     * @param \CCDNForum\ForumBundle\Entity\SubscriptionInterface $subscription
      * @return \CCDNForum\ForumBundle\Model\Component\Gateway\GatewayInterface
      */
-    public function deleteSubscription(Subscription $subscription)
+    public function deleteSubscription(SubscriptionInterface $subscription)
     {
         $this->remove($subscription)->flush();
 

@@ -16,7 +16,7 @@ namespace CCDNForum\ForumBundle\Model\Component\Gateway;
 use Doctrine\ORM\QueryBuilder;
 use CCDNForum\ForumBundle\Model\Component\Gateway\GatewayInterface;
 use CCDNForum\ForumBundle\Model\Component\Gateway\BaseGateway;
-use CCDNForum\ForumBundle\Entity\Post;
+use CCDNForum\ForumBundle\Entity\PostInterface;
 
 /**
  *
@@ -101,10 +101,10 @@ class PostGateway extends BaseGateway implements GatewayInterface
     /**
      *
      * @access public
-     * @param  \CCDNForum\ForumBundle\Entity\Post                              $post
+     * @param \CCDNForum\ForumBundle\Entity\PostInterface $post
      * @return \CCDNForum\ForumBundle\Model\Component\Gateway\GatewayInterface
      */
-    public function savePost(Post $post)
+    public function savePost(PostInterface $post)
     {
         $this->persist($post)->flush();
 
@@ -114,10 +114,10 @@ class PostGateway extends BaseGateway implements GatewayInterface
     /**
      *
      * @access public
-     * @param  \CCDNForum\ForumBundle\Entity\Post                              $post
+     * @param \CCDNForum\ForumBundle\Entity\PostInterface $post
      * @return \CCDNForum\ForumBundle\Model\Component\Gateway\GatewayInterface
      */
-    public function updatePost(Post $post)
+    public function updatePost(PostInterface $post)
     {
         $this->persist($post)->flush();
 
@@ -127,10 +127,10 @@ class PostGateway extends BaseGateway implements GatewayInterface
     /**
      *
      * @access public
-     * @param  \CCDNForum\ForumBundle\Entity\Post                              $post
+     * @param \CCDNForum\ForumBundle\Entity\PostInterface $post
      * @return \CCDNForum\ForumBundle\Model\Component\Gateway\GatewayInterface
      */
-    public function deletePost(Post $post)
+    public function deletePost(PostInterface $post)
     {
         $this->remove($post)->flush();
 

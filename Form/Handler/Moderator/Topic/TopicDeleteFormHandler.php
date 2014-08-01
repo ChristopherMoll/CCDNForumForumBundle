@@ -21,7 +21,7 @@ use CCDNForum\ForumBundle\Component\Dispatcher\ForumEvents;
 use CCDNForum\ForumBundle\Component\Dispatcher\Event\ModeratorTopicEvent;
 use CCDNForum\ForumBundle\Form\Handler\BaseFormHandler;
 use CCDNForum\ForumBundle\Model\FrontModel\ModelInterface;
-use CCDNForum\ForumBundle\Entity\Topic;
+use CCDNForum\ForumBundle\Entity\TopicInterface;
 
 /**
  *
@@ -60,10 +60,10 @@ class TopicDeleteFormHandler extends BaseFormHandler
     /**
      *
      * @access public
-     * @param \Symfony\Component\EventDispatcher\EventDispatcherInterface          $dispatcher
-     * @param \Symfony\Component\Form\FormFactory                                  $factory
-     * @param \CCDNForum\ForumBundle\Form\Type\Moderator\Topic\TopicDeleteFormType $formTopicType
-     * @param \CCDNForum\ForumBundle\Model\FrontModel\TopicModel                   $topicModel
+     * @param \Symfony\Component\EventDispatcher\EventDispatcherInterface $dispatcher
+     * @param \Symfony\Component\Form\FormFactory $factory
+     * @param $formTopicType
+     * @param \CCDNForum\ForumBundle\Model\FrontModel\ModelInterface $topicModel
      */
     public function __construct(EventDispatcherInterface $dispatcher, FormFactory $factory, $formTopicType, ModelInterface $topicModel)
     {
@@ -76,10 +76,10 @@ class TopicDeleteFormHandler extends BaseFormHandler
     /**
      *
      * @access public
-     * @param  \CCDNForum\ForumBundle\Entity\Topic                                        $topic
+     * @param \CCDNForum\ForumBundle\Entity\TopicInterface $topic
      * @return \CCDNForum\ForumBundle\Form\Handler\Moderator\Topic\TopicDeleteFormHandler
      */
-    public function setTopic(Topic $topic)
+    public function setTopic(TopicInterface $topic)
     {
         $this->topic = $topic;
 
@@ -89,12 +89,13 @@ class TopicDeleteFormHandler extends BaseFormHandler
     /**
      *
      * @access public
+     * @throws \Exception
      * @return \Symfony\Component\Form\Form
      */
     public function getForm()
     {
         if (null == $this->form) {
-            if (! is_object($this->topic) || ! ($this->topic instanceof Topic)) {
+            if (! is_object($this->topic) || ! ($this->topic instanceof TopicInterface)) {
                 throw new \Exception('Topic must be specified to delete in TopicDeleteFormHandler');
             }
 
@@ -109,9 +110,9 @@ class TopicDeleteFormHandler extends BaseFormHandler
     /**
      *
      * @access protected
-     * @param \CCDNForum\ForumBundle\Entity\Topic $topic
+     * @param \CCDNForum\ForumBundle\Entity\TopicInterface $topic
      */
-    protected function onSuccess(Topic $topic)
+    protected function onSuccess(TopicInterface $topic)
     {
         $this->dispatcher->dispatch(ForumEvents::MODERATOR_TOPIC_SOFT_DELETE_SUCCESS, new ModeratorTopicEvent($this->request, $this->topic));
 

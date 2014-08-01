@@ -21,7 +21,7 @@ use CCDNForum\ForumBundle\Component\Dispatcher\ForumEvents;
 use CCDNForum\ForumBundle\Component\Dispatcher\Event\UserPostEvent;
 use CCDNForum\ForumBundle\Form\Handler\BaseFormHandler;
 use CCDNForum\ForumBundle\Model\FrontModel\ModelInterface;
-use CCDNForum\ForumBundle\Entity\Post;
+use CCDNForum\ForumBundle\Entity\PostInterface;
 
 /**
  *
@@ -60,10 +60,10 @@ class PostUpdateFormHandler extends BaseFormHandler
     /**
      *
      * @access public
-     * @param \Symfony\Component\EventDispatcher\EventDispatcherInterface   $dispatcher
-     * @param \Symfony\Component\Form\FormFactory                           $factory
-     * @param \CCDNForum\ForumBundle\Form\Type\User\Post\PostUpdateFormType $formPostType
-     * @param \CCDNForum\ForumBundle\Model\FrontModel\PostModel             $postModel
+     * @param \Symfony\Component\EventDispatcher\EventDispatcherInterface $dispatcher
+     * @param \Symfony\Component\Form\FormFactory $factory
+     * @param $formPostType
+     * @param \CCDNForum\ForumBundle\Model\FrontModel\ModelInterface $postModel
      */
     public function __construct(EventDispatcherInterface $dispatcher, FormFactory $factory, $formPostType, ModelInterface $postModel)
     {
@@ -76,10 +76,10 @@ class PostUpdateFormHandler extends BaseFormHandler
     /**
      *
      * @access public
-     * @param  \CCDNForum\ForumBundle\Entity\Post                                  $post
+     * @param \CCDNForum\ForumBundle\Entity\PostInterface $post
      * @return \CCDNForum\ForumBundle\Form\Handler\User\Post\PostUpdateFormHandler
      */
-    public function setPost(Post $post)
+    public function setPost(PostInterface $post)
     {
         $this->post = $post;
 
@@ -89,12 +89,13 @@ class PostUpdateFormHandler extends BaseFormHandler
     /**
      *
      * @access public
+     * @throws \Exception
      * @return \Symfony\Component\Form\Form
      */
     public function getForm()
     {
         if (null == $this->form) {
-            if (! is_object($this->post) || ! ($this->post instanceof Post)) {
+            if (! is_object($this->post) || ! ($this->post instanceof PostInterface)) {
                 throw new \Exception('Post must be specified to be update a Reply in PostUpdateFormHandler');
             }
 
@@ -109,9 +110,9 @@ class PostUpdateFormHandler extends BaseFormHandler
     /**
      *
      * @access protected
-     * @param \CCDNForum\ForumBundle\Entity\Post $post
+     * @param \CCDNForum\ForumBundle\Entity\PostInterface $post
      */
-    protected function onSuccess(Post $post)
+    protected function onSuccess(PostInterface $post)
     {
         // get the current time, and compare to when the post was made.
         $now = new \DateTime();

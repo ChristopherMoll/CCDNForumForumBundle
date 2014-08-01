@@ -22,8 +22,8 @@ use CCDNForum\ForumBundle\Component\Dispatcher\Event\ModeratorTopicEvent;
 use CCDNForum\ForumBundle\Component\Dispatcher\Event\ModeratorTopicMoveEvent;
 use CCDNForum\ForumBundle\Form\Handler\BaseFormHandler;
 use CCDNForum\ForumBundle\Model\FrontModel\ModelInterface;
-use CCDNForum\ForumBundle\Entity\Forum;
-use CCDNForum\ForumBundle\Entity\Topic;
+use CCDNForum\ForumBundle\Entity\ForumInterface;
+use CCDNForum\ForumBundle\Entity\TopicInterface;
 
 /**
  *
@@ -76,11 +76,11 @@ class TopicChangeBoardFormHandler extends BaseFormHandler
     /**
      *
      * @access public
-     * @param \Symfony\Component\EventDispatcher\EventDispatcherInterface               $dispatcher
-     * @param \Symfony\Component\Form\FormFactory                                       $factory
+     * @param \Symfony\Component\EventDispatcher\EventDispatcherInterface $dispatcher
+     * @param \Symfony\Component\Form\FormFactory $factory
      * @param \CCDNForum\ForumBundle\Form\Type\Moderator\Topic\TopicChangeBoardFormType $formTopicChangeBoardType
-     * @param \CCDNForum\ForumBundle\Model\FrontModel\TopicModel                        $topicModel
-     * @param \CCDNForum\ForumBundle\Model\FrontModel\BoardModel                        $boardModel
+     * @param \CCDNForum\ForumBundle\Model\FrontModel\ModelInterface $topicModel
+     * @param \CCDNForum\ForumBundle\Model\FrontModel\ModelInterface $boardModel
      */
     public function __construct(EventDispatcherInterface $dispatcher, FormFactory $factory,
      $formTopicChangeBoardType, ModelInterface $topicModel, ModelInterface $boardModel)
@@ -95,10 +95,10 @@ class TopicChangeBoardFormHandler extends BaseFormHandler
     /**
      *
      * @access public
-     * @param  \CCDNForum\ForumBundle\Entity\Forum                                             $forum
+     * @param \CCDNForum\ForumBundle\Entity\ForumInterface $forum
      * @return \CCDNForum\ForumBundle\Form\Handler\Moderator\Topic\TopicChangeBoardFormHandler
      */
-    public function setForum(Forum $forum)
+    public function setForum(ForumInterface $forum)
     {
         $this->forum = $forum;
 
@@ -108,10 +108,10 @@ class TopicChangeBoardFormHandler extends BaseFormHandler
     /**
      *
      * @access public
-     * @param  \CCDNForum\ForumBundle\Entity\Topic                                             $topic
+     * @param \CCDNForum\ForumBundle\Entity\TopicInterface $topic
      * @return \CCDNForum\ForumBundle\Form\Handler\Moderator\Topic\TopicChangeBoardFormHandler
      */
-    public function setTopic(Topic $topic)
+    public function setTopic(TopicInterface $topic)
     {
         $this->topic = $topic;
 
@@ -144,12 +144,12 @@ class TopicChangeBoardFormHandler extends BaseFormHandler
         return $this->form;
     }
 
-    /**
+    /**Topic
      *
      * @access protected
-     * @param \CCDNForum\ForumBundle\Entity\Topic $topic
+     * @param \CCDNForum\ForumBundle\Entity\TopicInterface $topic
      */
-    protected function onSuccess(Topic $topic)
+    protected function onSuccess(TopicInterface $topic)
     {
         $this->dispatcher->dispatch(ForumEvents::MODERATOR_TOPIC_CHANGE_BOARD_SUCCESS, new ModeratorTopicEvent($this->request, $topic));
 

@@ -31,6 +31,13 @@ use CCDNForum\ForumBundle\Component\Dispatcher\Event\UserTopicEvent;
  */
 class UserSubscriptionController extends BaseController
 {
+    protected $postsPerPage;
+
+    public function __construct($postsPerPage)
+    {
+        $this->postsPerPage = $postsPerPage;
+    }
+
     /**
      *
      * @access public
@@ -110,7 +117,7 @@ class UserSubscriptionController extends BaseController
             'total_subscribed_forums' => $totalForumsSubscribed,
             'filter' => $filter,
             'pager' => $subscriptionPager,
-            'posts_per_page' => $this->container->getParameter('ccdn_forum_forum.topic.user.show.posts_per_page')
+            'posts_per_page' => $this->postsPerPage
         ));
     }
 

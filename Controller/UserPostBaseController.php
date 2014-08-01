@@ -14,6 +14,9 @@
 namespace CCDNForum\ForumBundle\Controller;
 
 use CCDNForum\ForumBundle\Entity\Post;
+use CCDNForum\ForumBundle\Form\Handler\User\Post\PostDeleteFormHandler;
+use CCDNForum\ForumBundle\Form\Handler\User\Post\PostUpdateFormHandler;
+use CCDNForum\ForumBundle\Form\Handler\User\Topic\TopicUpdateFormHandler;
 
 /**
  *
@@ -28,6 +31,26 @@ use CCDNForum\ForumBundle\Entity\Post;
  */
 class UserPostBaseController extends BaseController
 {
+    protected $postUpdateFormHandler;
+    protected $postDeleteFormHandler;
+    protected $topicUpdateFormHandler;
+
+
+    public function __construct(PostUpdateFormHandler $postUpdateFormHandler, PostDeleteFormHandler $postDeleteFormHandler, TopicUpdateFormHandler $topicUpdateFormHandler)
+    {
+        $this->postUpdateFormHandler = $postUpdateFormHandler;
+        $this->postDeleteFormHandler = $postDeleteFormHandler;
+        $this->topicUpdateFormHandler = $topicUpdateFormHandler;
+    }
+
+    /**
+     * @param \CCDNForum\ForumBundle\Form\Handler\User\Post\PostUpdateFormHandler $postUpdateFormHandler
+     */
+    public function setPostUpdateFormHandler($postUpdateFormHandler)
+    {
+        $this->postUpdateFormHandler = $postUpdateFormHandler;
+    }
+
     /**
      *
      * @access protected
@@ -38,9 +61,9 @@ class UserPostBaseController extends BaseController
     {
         // If post is the very first post of the topic then use a topic handler so user can change topic title.
         if ($post->getTopic()->getFirstPost()->getId() == $post->getId()) {
-            $formHandler = $this->container->get('ccdn_forum_forum.form.handler.topic_update');
+            $formHandler = $this->topicUpdateFormHandler;
         } else {
-            $formHandler = $this->container->get('ccdn_forum_forum.form.handler.post_update');
+            $formHandler = $this->postUpdateFormHandler;
         }
 
         $formHandler->setPost($post);
@@ -58,7 +81,7 @@ class UserPostBaseController extends BaseController
      */
     protected function getFormHandlerToDeletePost(Post $post)
     {
-        $formHandler = $this->container->get('ccdn_forum_forum.form.handler.post_delete');
+        $formHandler = $this->postDeleteFormHandler;
 
         $formHandler->setPost($post);
         $formHandler->setUser($this->getUser());

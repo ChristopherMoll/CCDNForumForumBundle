@@ -27,7 +27,7 @@ use Symfony\Component\Security\Core\SecurityContextInterface;
  * @link     https://github.com/codeconsortium/CCDNForumForumBundle
  *
  */
-abstract class Board extends AbstractBoard
+abstract class Board extends AbstractBoard implements BoardInterface
 {
     /**
      *
@@ -376,3 +376,5 @@ abstract class Board extends AbstractBoard
         return false;
     }
 }
+
+

@@ -22,9 +22,9 @@ use CCDNForum\ForumBundle\Component\Dispatcher\Event\UserTopicEvent;
 use CCDNForum\ForumBundle\Component\Dispatcher\Event\UserTopicFloodEvent;
 use CCDNForum\ForumBundle\Form\Handler\BaseFormHandler;
 use CCDNForum\ForumBundle\Model\FrontModel\ModelInterface;
-use CCDNForum\ForumBundle\Entity\Forum;
-use CCDNForum\ForumBundle\Entity\Board;
-use CCDNForum\ForumBundle\Entity\Post;
+use CCDNForum\ForumBundle\Entity\ForumInterface;
+use CCDNForum\ForumBundle\Entity\BoardInterface;
+use CCDNForum\ForumBundle\Entity\PostInterface;
 use CCDNForum\ForumBundle\Component\FloodControl;
 
 /**
@@ -99,14 +99,14 @@ class TopicCreateFormHandler extends BaseFormHandler
     /**
      *
      * @access public
-     * @param \Symfony\Component\EventDispatcher\EventDispatcherInterface     $dispatcher
-     * @param \Symfony\Component\Form\FormFactory                             $factory
+     * @param \Symfony\Component\EventDispatcher\EventDispatcherInterface $dispatcher
+     * @param \Symfony\Component\Form\FormFactory $factory
      * @param \CCDNForum\ForumBundle\Form\Type\User\Topic\TopicCreateFormType $formTopicType
-     * @param \CCDNForum\ForumBundle\Form\Type\User\Post\PostCreateFormType   $formPostType
-     * @param \CCDNForum\ForumBundle\Model\FrontModel\TopicModel              $topicModel
-     * @param \CCDNForum\ForumBundle\Model\FrontModel\PostModel               $postModel
-     * @param \CCDNForum\ForumBundle\Model\FrontModel\BoardModel              $boardModel
-     * @param \CCDNForum\ForumBundle\Component\FloodControl                   $floodControl
+     * @param $formPostType
+     * @param \CCDNForum\ForumBundle\Model\FrontModel\ModelInterface $topicModel
+     * @param \CCDNForum\ForumBundle\Model\FrontModel\ModelInterface $postModel
+     * @param \CCDNForum\ForumBundle\Model\FrontModel\ModelInterface $boardModel
+     * @param \CCDNForum\ForumBundle\Component\FloodControl $floodControl
      */
     public function __construct(EventDispatcherInterface $dispatcher, FormFactory $factory, $formTopicType,
      $formPostType, ModelInterface $topicModel, ModelInterface $postModel, ModelInterface $boardModel, FloodControl $floodControl)
@@ -124,10 +124,10 @@ class TopicCreateFormHandler extends BaseFormHandler
     /**
      *
      * @access public
-     * @param  \CCDNForum\ForumBundle\Entity\Forum                                   $forum
+     * @param \CCDNForum\ForumBundle\Entity\ForumInterface $forum
      * @return \CCDNForum\ForumBundle\Form\Handler\User\Topic\TopicCreateFormHandler
      */
-    public function setForum(Forum $forum)
+    public function setForum(ForumInterface $forum)
     {
         $this->forum = $forum;
 
@@ -137,10 +137,10 @@ class TopicCreateFormHandler extends BaseFormHandler
     /**
      *
      * @access public
-     * @param  \CCDNForum\ForumBundle\Entity\Board                                   $board
+     * @param \CCDNForum\ForumBundle\Entity\BoardInterface $board
      * @return \CCDNForum\ForumBundle\Form\Handler\User\Topic\TopicCreateFormHandler
      */
-    public function setBoard(Board $board)
+    public function setBoard(BoardInterface $board)
     {
         $this->board = $board;
 
@@ -185,12 +185,13 @@ class TopicCreateFormHandler extends BaseFormHandler
     /**
      *
      * @access public
+     * @throws \Exception
      * @return \Symfony\Component\Form\Form
      */
     public function getForm()
     {
         if (null == $this->form) {
-            if (! is_object($this->board) || ! ($this->board instanceof Board)) {
+            if (! is_object($this->board) || ! ($this->board instanceof BoardInterface)) {
                 throw new \Exception('Board must be specified to be create a Topic in TopicCreateFormHandler');
             }
 
@@ -219,9 +220,9 @@ class TopicCreateFormHandler extends BaseFormHandler
     /**
      *
      * @access protected
-     * @param \CCDNForum\ForumBundle\Entity\Post $post
+     * @param \CCDNForum\ForumBundle\Entity\PostInterface $post
      */
-    protected function onSuccess(Post $post)
+    protected function onSuccess(PostInterface $post)
     {
         $post->setCreatedDate(new \DateTime());
         $post->setCreatedBy($this->user);

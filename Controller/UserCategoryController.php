@@ -26,6 +26,13 @@ namespace CCDNForum\ForumBundle\Controller;
  */
 class UserCategoryController extends BaseController
 {
+    protected $postsPerPage;
+
+    public function __construct($postsPerPage)
+    {
+        $this->postsPerPage = $postsPerPage;
+    }
+
     /**
      *
      * Has 2 modes, when forum name is specified, categories for that forum are listed.
@@ -55,7 +62,7 @@ class UserCategoryController extends BaseController
             'forum' => $forum,
             'forumName' => $forumName,
             'categories' => $categories,
-            'topics_per_page' => $this->container->getParameter('ccdn_forum_forum.board.user.show.topics_per_page'),
+            'topics_per_page' => $this->postsPerPage,
         ));
     }
 
@@ -78,7 +85,7 @@ class UserCategoryController extends BaseController
             'forumName' => $forumName,
             'category' => $category,
             'categories' => array($category),
-            'topics_per_page' => $this->container->getParameter('ccdn_forum_forum.board.user.show.topics_per_page'),
+            'topics_per_page' => $this->postsPerPage,
         ));
     }
 }

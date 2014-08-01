@@ -18,7 +18,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use CCDNForum\ForumBundle\Model\Component\Manager\ManagerInterface;
 use CCDNForum\ForumBundle\Model\Component\Manager\BaseManager;
 
-use CCDNForum\ForumBundle\Entity\Category;
+use CCDNForum\ForumBundle\Entity\CategoryInterface;
 
 /**
  *
@@ -46,10 +46,10 @@ class CategoryManager extends BaseManager implements ManagerInterface
     /**
      *
      * @access public
-     * @param  \CCDNForum\ForumBundle\Entity\Category          $category
+     * @param \CCDNForum\ForumBundle\Entity\CategoryInterface $category
      * @return \CCDNForum\ForumBundle\Manager\ManagerInterface
      */
-    public function saveCategory(Category $category)
+    public function saveCategory(CategoryInterface $category)
     {
         $this->gateway->saveCategory($category);
 
@@ -59,10 +59,10 @@ class CategoryManager extends BaseManager implements ManagerInterface
     /**
      *
      * @access public
-     * @param  \CCDNForum\ForumBundle\Entity\Category          $category
+     * @param \CCDNForum\ForumBundle\Entity\CategoryInterface $category
      * @return \CCDNForum\ForumBundle\Manager\ManagerInterface
      */
-    public function updateCategory(Category $category)
+    public function updateCategory(CategoryInterface $category)
     {
         $this->gateway->updateCategory($category);
 
@@ -72,10 +72,10 @@ class CategoryManager extends BaseManager implements ManagerInterface
     /**
      *
      * @access public
-     * @param  \CCDNForum\ForumBundle\Entity\Category          $category
+     * @param \CCDNForum\ForumBundle\Entity\CategoryInterface $category
      * @return \CCDNForum\ForumBundle\Manager\ManagerInterface
      */
-    public function deleteCategory(Category $category)
+    public function deleteCategory(CategoryInterface $category)
     {
         // If we do not refresh the category, AND we have reassigned the boards to null,
         // then its lazy-loaded boards are dirty, as the boards in memory will still
@@ -90,11 +90,11 @@ class CategoryManager extends BaseManager implements ManagerInterface
     /**
      *
      * @access public
-     * @param  \Doctrine\Common\Collections\ArrayCollection    $boards
-     * @param  \CCDNForum\ForumBundle\Entity\Category          $category
+     * @param  \Doctrine\Common\Collections\ArrayCollection $boards
+     * @param \CCDNForum\ForumBundle\Entity\CategoryInterface $category
      * @return \CCDNForum\ForumBundle\Manager\ManagerInterface
      */
-    public function reassignBoardsToCategory(ArrayCollection $boards, Category $category = null)
+    public function reassignBoardsToCategory(ArrayCollection $boards, CategoryInterface $category = null)
     {
         foreach ($boards as $board) {
             $board->setCategory($category);
@@ -109,12 +109,12 @@ class CategoryManager extends BaseManager implements ManagerInterface
     /**
      *
      * @access public
-     * @param  Array                                           $categories
-     * @param  \CCDNForum\ForumBundle\Entity\Category          $categoryShift
-     * @param  int                                             $direction
+     * @param  Array $categories
+     * @param \CCDNForum\ForumBundle\Entity\CategoryInterface $categoryShift
+     * @param  int $direction
      * @return \CCDNForum\ForumBundle\Manager\ManagerInterface
      */
-    public function reorderCategories($categories, Category $categoryShift, $direction)
+    public function reorderCategories($categories, CategoryInterface $categoryShift, $direction)
     {
         $categoryCount = (count($categories) - 1);
 

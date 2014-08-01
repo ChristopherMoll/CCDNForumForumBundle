@@ -18,7 +18,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use CCDNForum\ForumBundle\Model\Component\Manager\ManagerInterface;
 use CCDNForum\ForumBundle\Model\Component\Manager\BaseManager;
 
-use CCDNForum\ForumBundle\Entity\Forum;
+use CCDNForum\ForumBundle\Entity\ForumInterface;
 
 /**
  *
@@ -46,9 +46,10 @@ class ForumManager extends BaseManager implements ManagerInterface
     /**
      *
      * @access public
-     * @param \CCDNForum\ForumBundle\Entity\Forum $forum
+     * @param \CCDNForum\ForumBundle\Entity\ForumInterface $forum
+     * @return $this
      */
-    public function saveForum(Forum $forum)
+    public function saveForum(ForumInterface $forum)
     {
         $this->gateway->saveForum($forum);
 
@@ -58,9 +59,10 @@ class ForumManager extends BaseManager implements ManagerInterface
     /**
      *
      * @access public
-     * @param \CCDNForum\ForumBundle\Entity\Forum $forum
+     * @param \CCDNForum\ForumBundle\Entity\ForumInterface $forum
+     * @return $this
      */
-    public function updateForum(Forum $forum)
+    public function updateForum(ForumInterface $forum)
     {
         $this->gateway->updateForum($forum);
 
@@ -70,9 +72,10 @@ class ForumManager extends BaseManager implements ManagerInterface
     /**
      *
      * @access public
-     * @param \CCDNForum\ForumBundle\Entity\Forum $forum
+     * @param \CCDNForum\ForumBundle\Entity\ForumInterface $forum
+     * @return $this
      */
-    public function deleteForum(Forum $forum)
+    public function deleteForum(ForumInterface $forum)
     {
         // If we do not refresh the forum, AND we have reassigned the categories to null,
         // then its lazy-loaded categories are dirty, as the categories in memory will
@@ -88,9 +91,10 @@ class ForumManager extends BaseManager implements ManagerInterface
      *
      * @access public
      * @param \Doctrine\Common\Collections\ArrayCollection $categories
-     * @param \CCDNForum\ForumBundle\Entity\Forum          $forum
+     * @param \CCDNForum\ForumBundle\Entity\ForumInterface $forum
+     * @return $this
      */
-    public function reassignCategoriesToForum(ArrayCollection $categories, Forum $forum = null)
+    public function reassignCategoriesToForum(ArrayCollection $categories, ForumInterface $forum = null)
     {
         foreach ($categories as $category) {
             $category->setForum($forum);

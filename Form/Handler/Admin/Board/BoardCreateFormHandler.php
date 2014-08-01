@@ -21,8 +21,8 @@ use CCDNForum\ForumBundle\Component\Dispatcher\ForumEvents;
 use CCDNForum\ForumBundle\Component\Dispatcher\Event\AdminBoardEvent;
 use CCDNForum\ForumBundle\Form\Handler\BaseFormHandler;
 use CCDNForum\ForumBundle\Model\FrontModel\ModelInterface;
-use CCDNForum\ForumBundle\Entity\Category;
-use CCDNForum\ForumBundle\Entity\Board;
+use CCDNForum\ForumBundle\Entity\CategoryInterface;
+use CCDNForum\ForumBundle\Entity\BoardInterface;
 
 /**
  *
@@ -62,9 +62,9 @@ class BoardCreateFormHandler extends BaseFormHandler
      *
      * @access public
      * @param \Symfony\Component\EventDispatcher\EventDispatcherInterface $dispatcher
-     * @param \Symfony\Component\Form\FormFactory                         $factory
-     * @param \CCDNForum\ForumBundle\Form\Type\Board\BoardCreateFormType  $boardCreateFormType
-     * @param \CCDNForum\ForumBundle\Model\FrontModel\BoardModel          $boardModel
+     * @param \Symfony\Component\Form\FormFactory $factory
+     * @param $boardCreateFormType
+     * @param \CCDNForum\ForumBundle\Model\FrontModel\ModelInterface $boardModel
      */
     public function __construct(EventDispatcherInterface $dispatcher, FormFactory $factory, $boardCreateFormType, ModelInterface $boardModel)
     {
@@ -77,10 +77,10 @@ class BoardCreateFormHandler extends BaseFormHandler
     /**
      *
      * @access public
-     * @param  \CCDNForum\ForumBundle\Entity\Forum                                          $forum
+     * @param \CCDNForum\ForumBundle\Entity\CategoryInterface $category
      * @return \CCDNForum\ForumBundle\Form\Handler\Admin\Category\CategoryCreateFormHandler
      */
-    public function setDefaultCategory(Category $category)
+    public function setDefaultCategory(CategoryInterface $category)
     {
         $this->defaultCategory = $category;
 
@@ -112,9 +112,9 @@ class BoardCreateFormHandler extends BaseFormHandler
     /**
      *
      * @access protected
-     * @param \CCDNForum\ForumBundle\Entity\Board $board
+     * @param \CCDNForum\ForumBundle\Entity\BoardInterface $board
      */
-    protected function onSuccess(Board $board)
+    protected function onSuccess(BoardInterface $board)
     {
         $this->dispatcher->dispatch(ForumEvents::ADMIN_BOARD_CREATE_SUCCESS, new AdminBoardEvent($this->request, $board));
 

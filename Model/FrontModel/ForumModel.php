@@ -16,7 +16,7 @@ namespace CCDNForum\ForumBundle\Model\FrontModel;
 use Doctrine\Common\Collections\ArrayCollection;
 use CCDNForum\ForumBundle\Model\FrontModel\BaseModel;
 use CCDNForum\ForumBundle\Model\FrontModel\ModelInterface;
-use CCDNForum\ForumBundle\Entity\Forum;
+use CCDNForum\ForumBundle\Entity\ForumInterface;
 
 /**
  *
@@ -54,7 +54,7 @@ class ForumModel extends BaseModel implements ModelInterface
     /**
      *
      * @access public
-     * @param  string                              $forumName
+     * @param integer $forumId
      * @return \CCDNForum\ForumBundle\Entity\Forum
      */
     public function findOneForumById($forumId)
@@ -76,9 +76,10 @@ class ForumModel extends BaseModel implements ModelInterface
     /**
      *
      * @access public
-     * @param \CCDNForum\ForumBundle\Entity\Forum $forum
+     * @param \CCDNForum\ForumBundle\Entity\Forum|\CCDNForum\ForumBundle\Entity\ForumInterface $forum
+     * @return
      */
-    public function saveForum(Forum $forum)
+    public function saveForum(ForumInterface $forum)
     {
         return $this->getManager()->saveForum($forum);
     }
@@ -86,9 +87,10 @@ class ForumModel extends BaseModel implements ModelInterface
     /**
      *
      * @access public
-     * @param \CCDNForum\ForumBundle\Entity\Forum $forum
+     * @param \CCDNForum\ForumBundle\Entity\ForumInterface $forum
+     * @return
      */
-    public function updateForum(Forum $forum)
+    public function updateForum(ForumInterface $forum)
     {
         return $this->getManager()->updateForum($forum);
     }
@@ -96,9 +98,10 @@ class ForumModel extends BaseModel implements ModelInterface
     /**
      *
      * @access public
-     * @param \CCDNForum\ForumBundle\Entity\Forum $forum
+     * @param \CCDNForum\ForumBundle\Entity\ForumInterface $forum
+     * @return
      */
-    public function deleteForum(Forum $forum)
+    public function deleteForum(ForumInterface $forum)
     {
         return $this->getManager()->deleteForum($forum);
     }
@@ -107,9 +110,10 @@ class ForumModel extends BaseModel implements ModelInterface
      *
      * @access public
      * @param \Doctrine\Common\Collections\ArrayCollection $categories
-     * @param \CCDNForum\ForumBundle\Entity\Forum          $forum
+     * @param \CCDNForum\ForumBundle\Entity\Forum|\CCDNForum\ForumBundle\Entity\ForumInterface $forum
+     * @return
      */
-    public function reassignCategoriesToForum(ArrayCollection $categories, Forum $forum = null)
+    public function reassignCategoriesToForum(ArrayCollection $categories, ForumInterface $forum = null)
     {
         return $this->getManager()->reassignCategoriesToForum($categories, $forum);
     }

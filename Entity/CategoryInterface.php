@@ -26,29 +26,16 @@ use Symfony\Component\Security\Core\SecurityContextInterface;
  * @link     https://github.com/codeconsortium/CCDNForumForumBundle
  *
  */
-interface BoardInterface
+interface CategoryInterface
 {
-    public function isAuthorisedToReplyToTopic(SecurityContextInterface $securityContext);
-    public function hasTopicReplyAuthorisedRole($role);
-    public function setTopicReplyAuthorisedRoles(array $roles = null);
-    public function getTopicReplyAuthorisedRoles();
-    public function isAuthorisedToCreateTopic(SecurityContextInterface $securityContext);
-    public function hasTopicCreateAuthorisedRole($role);
-    public function setTopicCreateAuthorisedRoles(array $roles = null);
-    public function getTopicCreateAuthorisedRoles();
-    public function isAuthorisedToRead(SecurityContextInterface $securityContext);
-    public function hasReadAuthorisedRole($role);
+    public function forumName();
+    public function getId();
+    public function getName();
+    public function setName($name);
+    public function getListOrderPriority();
+    public function setListOrderPriority($listOrderPriority);
     public function getReadAuthorisedRoles();
     public function setReadAuthorisedRoles(array $roles = null);
-    public function setCachedPostCount($cachedPostCount);
-    public function getCachedPostCount();
-    public function setCachedTopicCount($cachedTopicCount);
-    public function getCachedTopicCount();
-    public function setListOrderPriority($listOrderPriority);
-    public function getListOrderPriority();
-    public function setDescription($description);
-    public function getDescription();
-    public function setName($name);
-    public function getName();
-    public function getId();
+    public function hasReadAuthorisedRole($role);
+    public function isAuthorisedToRead(SecurityContextInterface $securityContext);
 }

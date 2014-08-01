@@ -26,13 +26,11 @@ use Symfony\Component\Security\Core\SecurityContextInterface;
  * @link     https://github.com/codeconsortium/CCDNForumForumBundle
  *
  */
-interface RegistryInterface
+interface SubscriptionInterface
 {
     public function getId();
-    public function getCachedPostCount();
-    public function setCachedPostCount($cachedPostCount);
-    public function getCachedKarmaPositiveCount();
-    public function setCachedKarmaPositiveCount($cachedKarmaPositiveCount);
-    public function getCachedKarmaNegativeCount();
-    public function setCachedKarmaNegativeCount($cachedKarmaNegativeCount);
+    public function isRead();
+    public function setRead($isRead);
+    public function isSubscribed();
+    public function setSubscribed($isSubscribed);
 }

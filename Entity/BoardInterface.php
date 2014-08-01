@@ -11,11 +11,9 @@
  * file that was distributed with this source code.
  */
 
-namespace CCDNForum\ForumBundle\Model\FrontModel;
+namespace CCDNForum\ForumBundle\Entity;
 
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use CCDNForum\ForumBundle\Model\Component\Manager\ManagerInterface;
-use CCDNForum\ForumBundle\Model\Component\Repository\RepositoryInterface;
+use Symfony\Component\Security\Core\SecurityContextInterface;
 
 /**
  *
@@ -28,28 +26,29 @@ use CCDNForum\ForumBundle\Model\Component\Repository\RepositoryInterface;
  * @link     https://github.com/codeconsortium/CCDNForumForumBundle
  *
  */
-interface ModelInterface
+interface BoardInterface
 {
-    /**
-     *
-     * @access public
-     * @param \Symfony\Component\EventDispatcher\EventDispatcherInterface           $dispatcher
-     * @param \CCDNForum\ForumBundle\Model\Component\Repository\RepositoryInterface $repository
-     * @param \CCDNForum\ForumBundle\Model\Component\Manager\ManagerInterface       $manager
-     */
-    public function __construct(EventDispatcherInterface $dispatcher, RepositoryInterface $repository, ManagerInterface $manager);
-
-    /**
-     *
-     * @access public
-     * @return \CCDNForum\ForumBundle\Model\Component\Repository\RepositoryInterface
-     */
-    public function getRepository();
-
-    /**
-     *
-     * @access public
-     * @return \CCDNForum\ForumBundle\Model\Component\Manager\ManagerInterface
-     */
-    public function getManager();
+    public function isAuthorisedToReplyToTopic(SecurityContextInterface $securityContext);
+    public function hasTopicReplyAuthorisedRole($role);
+    public function setTopicReplyAuthorisedRoles(array $roles = null);
+    public function getTopicReplyAuthorisedRoles();
+    public function isAuthorisedToCreateTopic(SecurityContextInterface $securityContext);
+    public function hasTopicCreateAuthorisedRole($role);
+    public function setTopicCreateAuthorisedRoles(array $roles = null);
+    public function getTopicCreateAuthorisedRoles();
+    public function isAuthorisedToRead(SecurityContextInterface $securityContext);
+    public function hasReadAuthorisedRole($role);
+    public function getReadAuthorisedRoles();
+    public function setReadAuthorisedRoles(array $roles = null);
+    public function setCachedPostCount($cachedPostCount);
+    public function getCachedPostCount();
+    public function setCachedTopicCount($cachedTopicCount);
+    public function getCachedTopicCount();
+    public function setListOrderPriority($listOrderPriority);
+    public function getListOrderPriority();
+    public function setDescription($description);
+    public function getDescription();
+    public function setName($name);
+    public function getName();
+    public function getId();
 }

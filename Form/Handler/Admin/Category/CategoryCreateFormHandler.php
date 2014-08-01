@@ -21,8 +21,8 @@ use CCDNForum\ForumBundle\Component\Dispatcher\ForumEvents;
 use CCDNForum\ForumBundle\Component\Dispatcher\Event\AdminCategoryEvent;
 use CCDNForum\ForumBundle\Form\Handler\BaseFormHandler;
 use CCDNForum\ForumBundle\Model\FrontModel\ModelInterface;
-use CCDNForum\ForumBundle\Entity\Forum;
-use CCDNForum\ForumBundle\Entity\Category;
+use CCDNForum\ForumBundle\Entity\ForumInterface;
+use CCDNForum\ForumBundle\Entity\CategoryInterface;
 
 /**
  *
@@ -61,10 +61,10 @@ class CategoryCreateFormHandler extends BaseFormHandler
     /**
      *
      * @access public
-     * @param \Symfony\Component\EventDispatcher\EventDispatcherInterface            $dispatcher
-     * @param \Symfony\Component\Form\FormFactory                                    $factory
-     * @param \CCDNForum\ForumBundle\Form\Type\Admin\Category\CategoryCreateFormType $categoryCreateFormType
-     * @param \CCDNForum\ForumBundle\Model\FrontModel\CategoryModel                  $categoryModel
+     * @param \Symfony\Component\EventDispatcher\EventDispatcherInterface $dispatcher
+     * @param \Symfony\Component\Form\FormFactory $factory
+     * @param $categoryCreateFormType
+     * @param \CCDNForum\ForumBundle\Model\FrontModel\ModelInterface $categoryModel
      */
     public function __construct(EventDispatcherInterface $dispatcher, FormFactory $factory, $categoryCreateFormType, ModelInterface $categoryModel)
     {
@@ -77,10 +77,10 @@ class CategoryCreateFormHandler extends BaseFormHandler
     /**
      *
      * @access public
-     * @param  \CCDNForum\ForumBundle\Entity\Forum                                          $forum
+     * @param \CCDNForum\ForumBundle\Entity\ForumInterface $forum
      * @return \CCDNForum\ForumBundle\Form\Handler\Admin\Category\CategoryCreateFormHandler
      */
-    public function setDefaultForum(Forum $forum)
+    public function setDefaultForum(ForumInterface $forum)
     {
         $this->defaultForum = $forum;
 
@@ -112,9 +112,9 @@ class CategoryCreateFormHandler extends BaseFormHandler
     /**
      *
      * @access protected
-     * @param \CCDNForum\ForumBundle\Entity\Category $category
+     * @param \CCDNForum\ForumBundle\Entity\CategoryInterface $category
      */
-    protected function onSuccess(Category $category)
+    protected function onSuccess(CategoryInterface $category)
     {
         $this->dispatcher->dispatch(ForumEvents::ADMIN_CATEGORY_CREATE_SUCCESS, new AdminCategoryEvent($this->request, $category));
 

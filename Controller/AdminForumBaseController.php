@@ -14,6 +14,9 @@
 namespace CCDNForum\ForumBundle\Controller;
 
 use CCDNForum\ForumBundle\Entity\Forum;
+use CCDNForum\ForumBundle\Form\Handler\Admin\Forum\ForumCreateFormHandler;
+use CCDNForum\ForumBundle\Form\Handler\Admin\Forum\ForumDeleteFormHandler;
+use CCDNForum\ForumBundle\Form\Handler\Admin\Forum\ForumUpdateFormHandler;
 
 /**
  *
@@ -28,6 +31,42 @@ use CCDNForum\ForumBundle\Entity\Forum;
  */
 class AdminForumBaseController extends BaseController
 {
+    protected $forumCreateFormHandler;
+    protected $forumUpdateFormHandler;
+    protected $forumDeleteFormHandler;
+
+
+    public function __construct(ForumCreateFormHandler $forumCreateFormHandler, ForumUpdateFormHandler $forumUpdateFormHandler, ForumDeleteFormHandler $forumDeleteFormHandler)
+    {
+        $this->forumCreateFormHandler = $forumCreateFormHandler;
+        $this->forumUpdateFormHandler = $forumUpdateFormHandler;
+        $this->forumDeleteFormHandler = $forumDeleteFormHandler;
+    }
+
+    /**
+     * @param \CCDNForum\ForumBundle\Form\Handler\Admin\Forum\ForumCreateFormHandler $forumCreateFormHandler
+     */
+    public function setForumCreateFormHandler(ForumCreateFormHandler $forumCreateFormHandler)
+    {
+        $this->forumCreateFormHandler = $forumCreateFormHandler;
+    }
+
+    /**
+     * @param \CCDNForum\ForumBundle\Form\Handler\Admin\Forum\ForumUpdateFormHandler $forumUpdateFormHandler
+     */
+    public function setForumUpdateFormHandler(ForumUpdateFormHandler $forumUpdateFormHandler)
+    {
+        $this->forumUpdateFormHandler = $forumUpdateFormHandler;
+    }
+
+    /**
+     * @param \CCDNForum\ForumBundle\Form\Handler\Admin\Forum\ForumDeleteFormHandler $forumDeleteFormHandler
+     */
+    public function setForumDeleteFormHandler(ForumDeleteFormHandler $forumDeleteFormHandler)
+    {
+        $this->forumDeleteFormHandler = $forumDeleteFormHandler;
+    }
+
     /**
      *
      * @access protected
@@ -35,7 +74,7 @@ class AdminForumBaseController extends BaseController
      */
     protected function getFormHandlerToCreateForum()
     {
-        $formHandler = $this->container->get('ccdn_forum_forum.form.handler.forum_create');
+        $formHandler = $this->forumCreateFormHandler;
 
         $formHandler->setRequest($this->getRequest());
 
@@ -45,11 +84,12 @@ class AdminForumBaseController extends BaseController
     /**
      *
      * @access protected
+     * @param \CCDNForum\ForumBundle\Entity\Forum $forum
      * @return \CCDNForum\ForumBundle\Form\Handler\ForumUpdateFormHandler
      */
     protected function getFormHandlerToUpdateForum(Forum $forum)
     {
-        $formHandler = $this->container->get('ccdn_forum_forum.form.handler.forum_update');
+        $formHandler = $this->forumUpdateFormHandler;
 
         $formHandler->setRequest($this->getRequest());
 
@@ -61,11 +101,12 @@ class AdminForumBaseController extends BaseController
     /**
      *
      * @access protected
+     * @param \CCDNForum\ForumBundle\Entity\Forum $forum
      * @return \CCDNForum\ForumBundle\Form\Handler\ForumDeleteFormHandler
      */
     protected function getFormHandlerToDeleteForum(Forum $forum)
     {
-        $formHandler = $this->container->get('ccdn_forum_forum.form.handler.forum_delete');
+        $formHandler = $this->forumDeleteFormHandler;
 
         $formHandler->setRequest($this->getRequest());
 

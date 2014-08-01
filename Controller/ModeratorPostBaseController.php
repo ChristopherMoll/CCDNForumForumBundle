@@ -14,6 +14,7 @@
 namespace CCDNForum\ForumBundle\Controller;
 
 use CCDNForum\ForumBundle\Entity\Post;
+use CCDNForum\ForumBundle\Form\Handler\Moderator\Post\PostUnlockFormHandler;
 
 /**
  *
@@ -28,15 +29,30 @@ use CCDNForum\ForumBundle\Entity\Post;
  */
 class ModeratorPostBaseController extends BaseController
 {
+    protected $postUnlockFormHandler;
+
+//    public function __construct(PostUnlockFormHandler $postUnlockFormHandler)
+//    {
+//        $this->postUnlockFormHandler = $postUnlockFormHandler;
+//    }
+
+    /**
+     * @param \CCDNForum\ForumBundle\Form\Handler\Moderator\Post\PostUnlockFormHandler $postUnlockFormHandler
+     */
+    public function setPostUnlockFormHandler(PostUnlockFormHandler $postUnlockFormHandler)
+    {
+        $this->postUnlockFormHandler = $postUnlockFormHandler;
+    }
+
     /**
      *
      * @access protected
-     * @param  \CCDNForum\ForumBundle\Entity\Post                                       $post
+     * @param  \CCDNForum\ForumBundle\Entity\Post $post
      * @return \CCDNForum\ForumBundle\Form\Handler\Moderator\Post\PostUnlockFormHandler
      */
     protected function getFormHandlerToUnlockPost(Post $post)
     {
-        $formHandler = $this->container->get('ccdn_forum_forum.form.handler.post_unlock');
+        $formHandler = $this->postUnlockFormHandler;
 
         $formHandler->setPost($post);
         $formHandler->setUser($this->getUser());

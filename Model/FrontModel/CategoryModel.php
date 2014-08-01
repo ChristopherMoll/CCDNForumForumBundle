@@ -16,7 +16,7 @@ namespace CCDNForum\ForumBundle\Model\FrontModel;
 use Doctrine\Common\Collections\ArrayCollection;
 use CCDNForum\ForumBundle\Model\FrontModel\BaseModel;
 use CCDNForum\ForumBundle\Model\FrontModel\ModelInterface;
-use CCDNForum\ForumBundle\Entity\Category;
+use CCDNForum\ForumBundle\Entity\CategoryInterface;
 
 /**
  *
@@ -98,10 +98,10 @@ class CategoryModel extends BaseModel implements ModelInterface
     /**
      *
      * @access public
-     * @param  \CCDNForum\ForumBundle\Entity\Category                          $category
+     * @param \CCDNForum\ForumBundle\Entity\CategoryInterface $category
      * @return \CCDNForum\ForumBundle\Model\Component\Manager\ManagerInterface
      */
-    public function saveCategory(Category $category)
+    public function saveCategory(CategoryInterface $category)
     {
         return $this->getManager()->saveCategory($category);
     }
@@ -109,10 +109,10 @@ class CategoryModel extends BaseModel implements ModelInterface
     /**
      *
      * @access public
-     * @param  \CCDNForum\ForumBundle\Entity\Category                          $category
+     * @param \CCDNForum\ForumBundle\Entity\CategoryInterface $category
      * @return \CCDNForum\ForumBundle\Model\Component\Manager\ManagerInterface
      */
-    public function updateCategory(Category $category)
+    public function updateCategory(CategoryInterface $category)
     {
         return $this->getManager()->updateCategory($category);
     }
@@ -120,10 +120,10 @@ class CategoryModel extends BaseModel implements ModelInterface
     /**
      *
      * @access public
-     * @param  \CCDNForum\ForumBundle\Entity\Category                          $category
+     * @param  \CCDNForum\ForumBundle\Entity\CategoryInterface $category
      * @return \CCDNForum\ForumBundle\Model\Component\Manager\ManagerInterface
      */
-    public function deleteCategory(Category $category)
+    public function deleteCategory(CategoryInterface $category)
     {
         return $this->getManager()->deleteCategory($category);
     }
@@ -131,11 +131,11 @@ class CategoryModel extends BaseModel implements ModelInterface
     /**
      *
      * @access public
-     * @param  \Doctrine\Common\Collections\ArrayCollection                    $boards
-     * @param  \CCDNForum\ForumBundle\Entity\Category                          $category
+     * @param  \Doctrine\Common\Collections\ArrayCollection $boards
+     * @param  \CCDNForum\ForumBundle\Entity\CategoryInterface $category
      * @return \CCDNForum\ForumBundle\Model\Component\Manager\ManagerInterface
      */
-    public function reassignBoardsToCategory(ArrayCollection $boards, Category $category = null)
+    public function reassignBoardsToCategory(ArrayCollection $boards, CategoryInterface $category = null)
     {
         return $this->getManager()->reassignBoardsToCategory($boards, $category);
     }
@@ -143,12 +143,12 @@ class CategoryModel extends BaseModel implements ModelInterface
     /**
      *
      * @access public
-     * @param  Array                                                           $categories
-     * @param  \CCDNForum\ForumBundle\Entity\Category                          $categoryShift
-     * @param  int                                                             $direction
+     * @param  Array $categories
+     * @param  \CCDNForum\ForumBundle\Entity\CategoryInterface $categoryShift
+     * @param  int $direction
      * @return \CCDNForum\ForumBundle\Model\Component\Manager\ManagerInterface
      */
-    public function reorderCategories($categories, Category $categoryShift, $direction)
+    public function reorderCategories($categories, CategoryInterface $categoryShift, $direction)
     {
         return $this->getManager()->reorderCategories($categories, $categoryShift, $direction);
     }

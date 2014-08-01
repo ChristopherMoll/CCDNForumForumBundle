@@ -26,6 +26,13 @@ namespace CCDNForum\ForumBundle\Controller;
  */
 class UserBoardController extends BaseController
 {
+    protected $postsPerPage;
+
+    public function __construct($postsPerPage)
+    {
+        $this->postsPerPage = $postsPerPage;
+    }
+
     /**
      *
      * @access public
@@ -48,7 +55,7 @@ class UserBoardController extends BaseController
             'forumName' => $forumName,
             'board' => $board,
             'pager' => $topicsPager,
-            'posts_per_page' => $this->container->getParameter('ccdn_forum_forum.topic.user.show.posts_per_page'), // for working out last page per topic.
+            'posts_per_page' => $this->postsPerPage, // for working out last page per topic.
             'sticky_topics' => $stickyTopics,
         ));
     }

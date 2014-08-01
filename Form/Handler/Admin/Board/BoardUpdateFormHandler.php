@@ -13,6 +13,7 @@
 
 namespace CCDNForum\ForumBundle\Form\Handler\Admin\Board;
 
+use CCDNForum\ForumBundle\Entity\BoardInterface;
 use Symfony\Component\Form\Form;
 use Symfony\Component\Form\FormFactory;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface ;
@@ -60,10 +61,10 @@ class BoardUpdateFormHandler extends BaseFormHandler
     /**
      *
      * @access public
-     * @param \Symfony\Component\EventDispatcher\EventDispatcherInterface      $dispatcher
-     * @param \Symfony\Component\Form\FormFactory                              $factory
-     * @param \CCDNForum\ForumBundle\Form\Type\Admin\Board\BoardUpdateFormType $boardUpdateFormType
-     * @param \CCDNForum\ForumBundle\Model\FrontModel\BoardModel               $boardModel
+     * @param \Symfony\Component\EventDispatcher\EventDispatcherInterface $dispatcher
+     * @param \Symfony\Component\Form\FormFactory $factory
+     * @param $boardUpdateFormType
+     * @param \CCDNForum\ForumBundle\Model\FrontModel\ModelInterface $boardModel
      */
     public function __construct(EventDispatcherInterface $dispatcher, FormFactory $factory, $boardUpdateFormType, ModelInterface $boardModel)
     {
@@ -89,12 +90,13 @@ class BoardUpdateFormHandler extends BaseFormHandler
     /**
      *
      * @access public
+     * @throws \Exception
      * @return \Symfony\Component\Form\Form
      */
     public function getForm()
     {
         if (null == $this->form) {
-            if (!is_object($this->board) && !$this->board instanceof Board) {
+            if (!is_object($this->board) && !$this->board instanceof BoardInterface) {
                 throw new \Exception('Board object must be specified to edit.');
             }
 

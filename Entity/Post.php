@@ -33,7 +33,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @package CCDNForum\ForumBundle\Entity\Superclass
  * @ORM\MappedSuperclass()
  */
-abstract class Post extends AbstractPost
+abstract class Post extends AbstractPost implements PostInterface
 {
     /**
      *

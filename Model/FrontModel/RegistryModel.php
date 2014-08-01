@@ -16,7 +16,7 @@ namespace CCDNForum\ForumBundle\Model\FrontModel;
 use Symfony\Component\Security\Core\User\UserInterface;
 use CCDNForum\ForumBundle\Model\FrontModel\BaseModel;
 use CCDNForum\ForumBundle\Model\FrontModel\ModelInterface;
-use CCDNForum\ForumBundle\Entity\Registry;
+use CCDNForum\ForumBundle\Entity\RegistryInterface;
 
 /**
  *
@@ -74,10 +74,10 @@ class RegistryModel extends BaseModel implements ModelInterface
     /**
      *
      * @access public
-     * @param  \CCDNForum\ForumBundle\Entity\Registry                $registryModel
+     * @param \CCDNForum\ForumBundle\Entity\RegistryInterface $registry
      * @return \CCDNForum\ForumBundle\Model\FrontModel\RegistryModel
      */
-    public function saveRegistry(Registry $registry)
+    public function saveRegistry(RegistryInterface $registry)
     {
         $this->getManager()->saveRegistry($registry);
 

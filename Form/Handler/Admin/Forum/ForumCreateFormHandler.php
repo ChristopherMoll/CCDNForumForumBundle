@@ -21,7 +21,7 @@ use CCDNForum\ForumBundle\Component\Dispatcher\ForumEvents;
 use CCDNForum\ForumBundle\Component\Dispatcher\Event\AdminForumEvent;
 use CCDNForum\ForumBundle\Form\Handler\BaseFormHandler;
 use CCDNForum\ForumBundle\Model\FrontModel\ModelInterface;
-use CCDNForum\ForumBundle\Entity\Forum;
+use CCDNForum\ForumBundle\Entity\ForumInterface;
 
 /**
  *
@@ -53,10 +53,10 @@ class ForumCreateFormHandler extends BaseFormHandler
     /**
      *
      * @access public
-     * @param \Symfony\Component\EventDispatcher\EventDispatcherInterface      $dispatcher
-     * @param \Symfony\Component\Form\FormFactory                              $factory
-     * @param \CCDNForum\ForumBundle\Form\Type\Admin\Forum\ForumCreateFormType $forumCreateFormType
-     * @param \CCDNForum\ForumBundle\Model\FrontModel\ForumModel               $forumModel
+     * @param \Symfony\Component\EventDispatcher\EventDispatcherInterface $dispatcher
+     * @param \Symfony\Component\Form\FormFactory $factory
+     * @param $forumCreateFormType
+     * @param \CCDNForum\ForumBundle\Model\FrontModel\ModelInterface $forumModel
      */
     public function __construct(EventDispatcherInterface $dispatcher, FormFactory $factory, $forumCreateFormType, ModelInterface $forumModel)
     {
@@ -87,9 +87,9 @@ class ForumCreateFormHandler extends BaseFormHandler
     /**
      *
      * @access protected
-     * @param \CCDNForum\ForumBundle\Entity\Forum $forum
+     * @param \CCDNForum\ForumBundle\Entity\ForumInterface $forum
      */
-    protected function onSuccess(Forum $forum)
+    protected function onSuccess(ForumInterface $forum)
     {
         $this->dispatcher->dispatch(ForumEvents::ADMIN_FORUM_CREATE_SUCCESS, new AdminForumEvent($this->request, $forum));
 

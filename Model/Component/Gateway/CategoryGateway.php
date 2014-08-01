@@ -16,7 +16,7 @@ namespace CCDNForum\ForumBundle\Model\Component\Gateway;
 use Doctrine\ORM\QueryBuilder;
 use CCDNForum\ForumBundle\Model\Component\Gateway\GatewayInterface;
 use CCDNForum\ForumBundle\Model\Component\Gateway\BaseGateway;
-use CCDNForum\ForumBundle\Entity\Category;
+use CCDNForum\ForumBundle\Entity\CategoryInterface;
 
 /**
  *
@@ -101,10 +101,10 @@ class CategoryGateway extends BaseGateway implements GatewayInterface
     /**
      *
      * @access public
-     * @param  \CCDNForum\ForumBundle\Entity\Category                          $category
+     * @param \CCDNForum\ForumBundle\Entity\CategoryInterface $category
      * @return \CCDNForum\ForumBundle\Model\Component\Gateway\GatewayInterface
      */
-    public function saveCategory(Category $category)
+    public function saveCategory(CategoryInterface $category)
     {
         $this->persist($category)->flush();
 
@@ -114,10 +114,10 @@ class CategoryGateway extends BaseGateway implements GatewayInterface
     /**
      *
      * @access public
-     * @param  \CCDNForum\ForumBundle\Entity\Category                          $category
+     * @param \CCDNForum\ForumBundle\Entity\CategoryInterface $category
      * @return \CCDNForum\ForumBundle\Model\Component\Gateway\GatewayInterface
      */
-    public function updateCategory(Category $category)
+    public function updateCategory(CategoryInterface $category)
     {
         $this->persist($category)->flush();
 
@@ -127,10 +127,10 @@ class CategoryGateway extends BaseGateway implements GatewayInterface
     /**
      *
      * @access public
-     * @param  \CCDNForum\ForumBundle\Entity\Category                          $category
+     * @param \CCDNForum\ForumBundle\Entity\CategoryInterface $category
      * @return \CCDNForum\ForumBundle\Model\Component\Gateway\GatewayInterface
      */
-    public function deleteCategory(Category $category)
+    public function deleteCategory(CategoryInterface $category)
     {
         $this->remove($category)->flush();
 

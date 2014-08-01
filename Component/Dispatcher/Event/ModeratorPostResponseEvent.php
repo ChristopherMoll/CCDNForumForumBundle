@@ -13,6 +13,7 @@
 
 namespace CCDNForum\ForumBundle\Component\Dispatcher\Event;
 
+use CCDNForum\ForumBundle\Entity\PostInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -41,11 +42,11 @@ class ModeratorPostResponseEvent extends ModeratorPostEvent
     /**
      *
      * @access public
-     * @param \Symfony\Component\HttpFoundation\Request  $request
+     * @param \Symfony\Component\HttpFoundation\Request $request
      * @param \Symfony\Component\HttpFoundation\Response $response
-     * @param \CCDNForum\ForumBundle\Entity\Post         $post
+     * @param \CCDNForum\ForumBundle\Entity\PostInterface $post
      */
-    public function __construct(Request $request, Response $response, Post $post = null)
+    public function __construct(Request $request, Response $response, PostInterface $post = null)
     {
         $this->request = $request;
         $this->response = $response;

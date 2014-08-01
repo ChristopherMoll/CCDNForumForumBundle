@@ -13,6 +13,7 @@
 
 namespace CCDNForum\ForumBundle\Component\Dispatcher\Event;
 
+use CCDNForum\ForumBundle\Entity\TopicInterface;
 use Symfony\Component\EventDispatcher\Event;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -49,9 +50,9 @@ class ModeratorTopicEvent extends Event
      *
      * @access public
      * @param \Symfony\Component\HttpFoundation\Request $request
-     * @param \CCDNForum\ForumBundle\Entity\Topic       $topic
+     * @param \CCDNForum\ForumBundle\Entity\TopicInterface $topic
      */
-    public function __construct(Request $request, Topic $topic = null)
+    public function __construct(Request $request, TopicInterface $topic = null)
     {
         $this->request = $request;
         $this->topic = $topic;

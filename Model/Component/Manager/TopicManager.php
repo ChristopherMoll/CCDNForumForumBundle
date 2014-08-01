@@ -20,7 +20,7 @@ use CCDNForum\ForumBundle\Model\Component\Manager\ManagerInterface;
 use CCDNForum\ForumBundle\Model\Component\Manager\BaseManager;
 use CCDNForum\ForumBundle\Component\Helper\PostLockHelper;
 
-use CCDNForum\ForumBundle\Entity\Topic;
+use CCDNForum\ForumBundle\Entity\TopicInterface;
 
 /**
  *
@@ -45,7 +45,7 @@ class TopicManager extends BaseManager implements ManagerInterface
     /**
      *
      * @access public
-     * @param \CCDNForum\ForumBundle\Gateway\GatewayInterface        $gateway
+     * @param \CCDNForum\ForumBundle\Model\Component\Gateway\GatewayInterface $gateway
      * @param \CCDNForum\ForumBundle\Component\Helper\PostLockHelper $postLockHelper
      */
     public function __construct(GatewayInterface $gateway, PostLockHelper $postLockHelper)
@@ -69,10 +69,10 @@ class TopicManager extends BaseManager implements ManagerInterface
      * Post must have a set topic for topic to be set  correctly.
      *
      * @access public
-     * @param  \CCDNForum\ForumBundle\Entity\Post              $post
+     * @param \CCDNForum\ForumBundle\Entity\TopicInterface $topic
      * @return \CCDNForum\ForumBundle\Manager\ManagerInterface
      */
-    public function saveTopic(Topic $topic)
+    public function saveTopic(TopicInterface $topic)
     {
         $this->gateway->saveTopic($topic);
 
@@ -82,10 +82,10 @@ class TopicManager extends BaseManager implements ManagerInterface
     /**
      *
      * @access public
-     * @param  \CCDNForum\ForumBundle\Entity\Topic             $topic
+     * @param \CCDNForum\ForumBundle\Entity\TopicInterface $topic
      * @return \CCDNForum\ForumBundle\Manager\ManagerInterface
      */
-    public function updateTopic(Topic $topic)
+    public function updateTopic(TopicInterface $topic)
     {
         $this->gateway->updateTopic($topic);
 
@@ -95,10 +95,10 @@ class TopicManager extends BaseManager implements ManagerInterface
     /**
      *
      * @access public
-     * @param  \CCDNForum\ForumBundle\Entity\Topic             $topic
+     * @param \CCDNForum\ForumBundle\Entity\TopicInterface $topic
      * @return \CCDNForum\ForumBundle\Manager\ManagerInterface
      */
-    public function incrementViewCounter(Topic $topic)
+    public function incrementViewCounter(TopicInterface $topic)
     {
         // set the new counters
         $topic->setCachedViewCount($topic->getCachedViewCount() + 1);
@@ -111,11 +111,11 @@ class TopicManager extends BaseManager implements ManagerInterface
     /**
      *
      * @access public
-     * @param  \CCDNForum\ForumBundle\Entity\Topic                 $topic
+     * @param \CCDNForum\ForumBundle\Entity\TopicInterface $topic
      * @param  \Symfony\Component\Security\Core\User\UserInterface $user
      * @return \CCDNForum\ForumBundle\Manager\ManagerInterface
      */
-    public function softDelete(Topic $topic, UserInterface $user)
+    public function softDelete(TopicInterface $topic, UserInterface $user)
     {
         // Don't overwite previous users accountability.
         if (! $topic->getDeletedBy() && ! $topic->getDeletedDate()) {
@@ -138,10 +138,10 @@ class TopicManager extends BaseManager implements ManagerInterface
     /**
      *
      * @access public
-     * @param  \CCDNForum\ForumBundle\Entity\Topic             $topic
+     * @param \CCDNForum\ForumBundle\Entity\TopicInterface $topic
      * @return \CCDNForum\ForumBundle\Manager\ManagerInterface
      */
-    public function restore(Topic $topic)
+    public function restore(TopicInterface $topic)
     {
         $topic->setDeleted(false);
         $topic->setDeletedBy(null);
@@ -155,10 +155,11 @@ class TopicManager extends BaseManager implements ManagerInterface
     /**
      *
      * @access public
-     * @param  \CCDNForum\ForumBundle\Entity\Topic             $topic
+     * @param \CCDNForum\ForumBundle\Entity\TopicInterface $topic
+     * @param \Symfony\Component\Security\Core\User\UserInterface $user
      * @return \CCDNForum\ForumBundle\Manager\ManagerInterface
      */
-    public function sticky(Topic $topic, UserInterface $user)
+    public function sticky(TopicInterface $topic, UserInterface $user)
     {
         $topic->setSticky(true);
         $topic->setStickiedBy($user);
@@ -172,10 +173,10 @@ class TopicManager extends BaseManager implements ManagerInterface
     /**
      *
      * @access public
-     * @param  \CCDNForum\ForumBundle\Entity\Topic             $topic
+     * @param \CCDNForum\ForumBundle\Entity\TopicInterface $topic
      * @return \CCDNForum\ForumBundle\Manager\ManagerInterface
      */
-    public function unsticky(Topic $topic)
+    public function unsticky(TopicInterface $topic)
     {
         $topic->setSticky(false);
         $topic->setStickiedBy(null);
@@ -189,11 +190,11 @@ class TopicManager extends BaseManager implements ManagerInterface
     /**
      *
      * @access public
-     * @param  \CCDNForum\ForumBundle\Entity\Topic                 $topic
+     * @param \CCDNForum\ForumBundle\Entity\TopicInterface $topic
      * @param  \Symfony\Component\Security\Core\User\UserInterface $user
      * @return \CCDNForum\ForumBundle\Manager\ManagerInterface
      */
-    public function close(Topic $topic, UserInterface $user)
+    public function close(TopicInterface $topic, UserInterface $user)
     {
         // Don't overwite previous users accountability.
         if (! $topic->getClosedBy() && ! $topic->getClosedDate()) {
@@ -210,10 +211,10 @@ class TopicManager extends BaseManager implements ManagerInterface
     /**
      *
      * @access public
-     * @param  \CCDNForum\ForumBundle\Entity\Topic             $topic
+     * @param \CCDNForum\ForumBundle\Entity\TopicInterface $topic
      * @return \CCDNForum\ForumBundle\Manager\ManagerInterface
      */
-    public function reopen(Topic $topic)
+    public function reopen(TopicInterface $topic)
     {
         $topic->setClosed(false);
         $topic->setClosedBy(null);

@@ -14,6 +14,9 @@
 namespace CCDNForum\ForumBundle\Controller;
 
 use CCDNForum\ForumBundle\Entity\Category;
+use CCDNForum\ForumBundle\Form\Handler\Admin\Category\CategoryCreateFormHandler;
+use CCDNForum\ForumBundle\Form\Handler\Admin\Category\CategoryDeleteFormHandler;
+use CCDNForum\ForumBundle\Form\Handler\Admin\Category\CategoryUpdateFormHandler;
 
 /**
  *
@@ -28,14 +31,51 @@ use CCDNForum\ForumBundle\Entity\Category;
  */
 class AdminCategoryBaseController extends BaseController
 {
+    protected $categoryCreateFormHandler;
+    protected $categoryUpdateFormHandler;
+    protected $categoryDeleteFormHandler;
+
+
+    public function __construct(CategoryCreateFormHandler $categoryCreateFormHandler, CategoryUpdateFormHandler $categoryUpdateFormHandler, CategoryDeleteFormHandler $categoryDeleteFormHandler)
+    {
+        $this->categoryCreateFormHandler = $categoryCreateFormHandler;
+        $this->categoryUpdateFormHandler = $categoryUpdateFormHandler;
+        $this->categoryDeleteFormHandler = $categoryDeleteFormHandler;
+    }
+
+    /**
+     * @param \CCDNForum\ForumBundle\Form\Handler\Admin\Category\CategoryCreateFormHandler $categoryCreateFormHandler
+     */
+    public function setCategoryCreateFormHandler(CategoryCreateFormHandler $categoryCreateFormHandler)
+    {
+        $this->categoryCreateFormHandler = $categoryCreateFormHandler;
+    }
+
+    /**
+     * @param \CCDNForum\ForumBundle\Form\Handler\Admin\Category\CategoryUpdateFormHandler $categoryUpdateFormHandler
+     */
+    public function setCategoryUpdateFormHandler(CategoryUpdateFormHandler $categoryUpdateFormHandler)
+    {
+        $this->categoryUpdateFormHandler = $categoryUpdateFormHandler;
+    }
+
+    /**
+     * @param \CCDNForum\ForumBundle\Form\Handler\Admin\Category\CategoryDeleteFormHandler $categoryDeleteFormHandler
+     */
+    public function setCategoryDeleteFormHandler(CategoryDeleteFormHandler $categoryDeleteFormHandler)
+    {
+        $this->categoryDeleteFormHandler = $categoryDeleteFormHandler;
+    }
+
     /**
      *
      * @access protected
+     * @param null $forumFilter
      * @return \CCDNForum\ForumBundle\Form\Handler\CategoryCreateFormHandler
      */
     protected function getFormHandlerToCreateCategory($forumFilter = null)
     {
-        $formHandler = $this->container->get('ccdn_forum_forum.form.handler.category_create');
+        $formHandler = $this->categoryCreateFormHandler;
 
         $formHandler->setRequest($this->getRequest());
 
@@ -53,11 +93,12 @@ class AdminCategoryBaseController extends BaseController
     /**
      *
      * @access protected
+     * @param \CCDNForum\ForumBundle\Entity\Category $category
      * @return \CCDNForum\ForumBundle\Form\Handler\CategoryUpdateFormHandler
      */
     protected function getFormHandlerToUpdateCategory(Category $category)
     {
-        $formHandler = $this->container->get('ccdn_forum_forum.form.handler.category_update');
+        $formHandler = $this->categoryUpdateFormHandler;
 
         $formHandler->setRequest($this->getRequest());
 
@@ -69,11 +110,12 @@ class AdminCategoryBaseController extends BaseController
     /**
      *
      * @access protected
+     * @param \CCDNForum\ForumBundle\Entity\Category $category
      * @return \CCDNForum\ForumBundle\Form\Handler\CategoryDeleteFormHandler
      */
     protected function getFormHandlerToDeleteCategory(Category $category)
     {
-        $formHandler = $this->container->get('ccdn_forum_forum.form.handler.category_delete');
+        $formHandler = $this->categoryDeleteFormHandler;
 
         $formHandler->setRequest($this->getRequest());
 

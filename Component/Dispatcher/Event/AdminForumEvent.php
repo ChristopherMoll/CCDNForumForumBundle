@@ -13,6 +13,7 @@
 
 namespace CCDNForum\ForumBundle\Component\Dispatcher\Event;
 
+use CCDNForum\ForumBundle\Entity\ForumInterface;
 use Symfony\Component\EventDispatcher\Event;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -41,7 +42,7 @@ class AdminForumEvent extends Event
     /**
      *
      * @access protected
-     * @var \CCDNForum\ForumBundle\Entity\Forum $forum
+     * @var \CCDNForum\ForumBundle\Entity\ForumInterface $forum
      */
     protected $forum;
 
@@ -49,9 +50,9 @@ class AdminForumEvent extends Event
      *
      * @access public
      * @param \Symfony\Component\HttpFoundation\Request $request
-     * @param \CCDNForum\ForumBundle\Entity\Forum       $forum
+     * @param \CCDNForum\ForumBundle\Entity\ForumInterface $forum
      */
-    public function __construct(Request $request, Forum $forum = null)
+    public function __construct(Request $request, ForumInterface $forum = null)
     {
         $this->request = $request;
         $this->forum = $forum;

@@ -16,7 +16,7 @@ CCDNForum\ForumBundle\Entity\Category:
             nullable: true
     manyToOne:
         forum:
-            targetEntity: CCDNForum\ForumBundle\Entity\Forum
+            targetEntity: CCDNForum\ForumBundle\Entity\ForumInterface
             inversedBy: categories
             nullable: true
             joinColumn:

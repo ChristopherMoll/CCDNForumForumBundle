@@ -16,7 +16,7 @@ namespace CCDNForum\ForumBundle\Model\FrontModel;
 use Symfony\Component\Security\Core\User\UserInterface;
 use CCDNForum\ForumBundle\Model\FrontModel\BaseModel;
 use CCDNForum\ForumBundle\Model\FrontModel\ModelInterface;
-use CCDNForum\ForumBundle\Entity\Post;
+use CCDNForum\ForumBundle\Entity\PostInterface;
 
 /**
  *
@@ -103,7 +103,7 @@ class PostModel extends BaseModel implements ModelInterface
     /**
      *
      * @access public
-     * @param  int   $topicId
+     * @param $userId
      * @return Array
      */
     public function countPostsForUserById($userId)
@@ -114,10 +114,10 @@ class PostModel extends BaseModel implements ModelInterface
     /**
      *
      * @access public
-     * @param  \CCDNForum\ForumBundle\Entity\Post                              $post
+     * @param \CCDNForum\ForumBundle\Entity\PostInterface $post
      * @return \CCDNForum\ForumBundle\Model\Component\Manager\ManagerInterface
      */
-    public function savePost(Post $post)
+    public function savePost(PostInterface $post)
     {
         return $this->getManager()->savePost($post);
     }
@@ -125,10 +125,10 @@ class PostModel extends BaseModel implements ModelInterface
     /**
      *
      * @access public
-     * @param  \CCDNForum\ForumBundle\Entity\Post                              $post
+     * @param \CCDNForum\ForumBundle\Entity\PostInterface $post
      * @return \CCDNForum\ForumBundle\Model\Component\Manager\ManagerInterface
      */
-    public function updatePost(Post $post)
+    public function updatePost(PostInterface $post)
     {
         return $this->getManager()->updatePost($post);
     }
@@ -136,10 +136,10 @@ class PostModel extends BaseModel implements ModelInterface
     /**
      *
      * @access public
-     * @param  \CCDNForum\ForumBundle\Entity\Post                              $post
+     * @param \CCDNForum\ForumBundle\Entity\PostInterface $post
      * @return \CCDNForum\ForumBundle\Model\Component\Manager\ManagerInterface
      */
-    public function lock(Post $post)
+    public function lock(PostInterface $post)
     {
         return $this->getManager()->lock($post);
     }
@@ -147,10 +147,10 @@ class PostModel extends BaseModel implements ModelInterface
     /**
      *
      * @access public
-     * @param  \CCDNForum\ForumBundle\Entity\Post                              $post
-     * @return \CCDNForum\ForumBundle\Model\Component\Manager\ManagerInterface
+     * @param \CCDNForum\ForumBundle\Entity\Post|\CCDNForum\ForumBundle\Entity\PostInterface $post
+     * @return
      */
-    public function restore(Post $post)
+    public function restore(PostInterface $post)
     {
         return $this->getManager()->restore($post);
     }
@@ -158,11 +158,11 @@ class PostModel extends BaseModel implements ModelInterface
     /**
      *
      * @access public
-     * @param  \CCDNForum\ForumBundle\Entity\Post                              $post
-     * @param  \Symfony\Component\Security\Core\User\UserInterface             $user
-     * @return \CCDNForum\ForumBundle\Model\Component\Manager\ManagerInterface
+     * @param \CCDNForum\ForumBundle\Entity\Post|\CCDNForum\ForumBundle\Entity\PostInterface $post
+     * @param  \Symfony\Component\Security\Core\User\UserInterface $user
+     * @return
      */
-    public function softDelete(Post $post, UserInterface $user)
+    public function softDelete(PostInterface $post, UserInterface $user)
     {
         return $this->getManager()->softDelete($post, $user);
     }

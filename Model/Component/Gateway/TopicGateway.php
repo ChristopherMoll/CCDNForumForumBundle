@@ -16,7 +16,7 @@ namespace CCDNForum\ForumBundle\Model\Component\Gateway;
 use Doctrine\ORM\QueryBuilder;
 use CCDNForum\ForumBundle\Model\Component\Gateway\GatewayInterface;
 use CCDNForum\ForumBundle\Model\Component\Gateway\BaseGateway;
-use CCDNForum\ForumBundle\Entity\Topic;
+use CCDNForum\ForumBundle\Entity\TopicInterface;
 
 /**
  *
@@ -99,10 +99,10 @@ class TopicGateway extends BaseGateway implements GatewayInterface
     /**
      *
      * @access public
-     * @param  \CCDNForum\ForumBundle\Entity\Topic                             $topic
+     * @param \CCDNForum\ForumBundle\Entity\TopicInterface $topic
      * @return \CCDNForum\ForumBundle\Model\Component\Gateway\GatewayInterface
      */
-    public function saveTopic(Topic $topic)
+    public function saveTopic(TopicInterface $topic)
     {
         $this->persist($topic)->flush();
 
@@ -112,10 +112,10 @@ class TopicGateway extends BaseGateway implements GatewayInterface
     /**
      *
      * @access public
-     * @param  \CCDNForum\ForumBundle\Entity\Topic                             $topic
+     * @param \CCDNForum\ForumBundle\Entity\TopicInterface $topic
      * @return \CCDNForum\ForumBundle\Model\Component\Gateway\GatewayInterface
      */
-    public function updateTopic(Topic $topic)
+    public function updateTopic(TopicInterface $topic)
     {
         $this->persist($topic)->flush();
 
@@ -125,10 +125,10 @@ class TopicGateway extends BaseGateway implements GatewayInterface
     /**
      *
      * @access public
-     * @param  \CCDNForum\ForumBundle\Entity\Topic                             $topic
+     * @param \CCDNForum\ForumBundle\Entity\TopicInterface $topic
      * @return \CCDNForum\ForumBundle\Model\Component\Gateway\GatewayInterface
      */
-    public function deleteTopic(Topic $topic)
+    public function deleteTopic(TopicInterface $topic)
     {
         $this->remove($topic)->flush();
 

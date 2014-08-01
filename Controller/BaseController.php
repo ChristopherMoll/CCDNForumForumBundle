@@ -13,14 +13,22 @@
 
 namespace CCDNForum\ForumBundle\Controller;
 
-use Symfony\Component\DependencyInjection\ContainerAware;
+use CCDNForum\ForumBundle\Component\Helper\PaginationConfigHelper as PageHelper;
+use CCDNForum\ForumBundle\Component\Security\Authorizer;
+use CCDNForum\ForumBundle\Model\FrontModel;
+use Symfony\Bundle\FrameworkBundle\Routing\Router;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface as Dispatcher;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\EventDispatcher\Event;
+use Symfony\Bundle\TwigBundle\Debug\TimedTwigEngine as Templating;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 use CCDNForum\ForumBundle\Entity\Topic;
 use CCDNForum\ForumBundle\Entity\Post;
+use Symfony\Component\Security\Core\SecurityContext;
 
 /**
  *
@@ -33,23 +41,23 @@ use CCDNForum\ForumBundle\Entity\Post;
  * @link     https://github.com/codeconsortium/CCDNForumForumBundle
  *
  */
-class BaseController extends ContainerAware
+class BaseController implements ControllerInterface
 {
     /**
      *
      * @var \Symfony\Bundle\FrameworkBundle\Routing\Router $router
      */
-    private $router;
+    protected $router;
 
     /**
      *
      * @var \Symfony\Bundle\TwigBundle\Debug\TimedTwigEngine $templating
      */
-    private $templating;
+    protected $templating;
 
     /**
      *
-     * @var \Symfony\Component\HttpFoundation\Request $request
+     * @var RequestStack
      */
     protected $request;
 
@@ -61,57 +69,78 @@ class BaseController extends ContainerAware
 
     /**
      *
+     * @var string;
+     */
+    protected $engine;
+
+    /**
+     * @var PageHelper
+     */
+    protected $pageHelper;
+
+    /**
+     * @var mixed
+     */
+    protected $crumbs;
+
+    /**
+     *
      * @var \Symfony\Component\Security\Core\SecurityContext $securityContext
      */
-    private $securityContext;
+    protected $securityContext;
 
     /**
      *
      * @var \CCDNForum\ForumBundle\Component\Security\Authorizer $authorizer;
      */
-    private $authorizer;
+    protected $authorizer;
 
     /**
      *
      * @var \CCDNForum\ForumBundle\Model\FrontModel\ForumModel $forumModel
      */
-    private $forumModel;
+    protected $forumModel;
 
     /**
      *
      * @var \CCDNForum\ForumBundle\Model\FrontModel\CategoryModel $categoryModel
      */
-    private $categoryModel;
+    protected $categoryModel;
 
     /**
      *
      * @var \CCDNForum\ForumBundle\Model\FrontModel\BoardModel $boardModel
      */
-    private $boardModel;
+    protected $boardModel;
 
     /**
      *
      * @var \CCDNForum\ForumBundle\Model\FrontModel\TopicModel $topicModel
      */
-    private $topicModel;
+    protected $topicModel;
 
     /**
      *
      * @var \CCDNForum\ForumBundle\Model\FrontModel\PostModel $postModel
      */
-    private $postModel;
+    protected $postModel;
 
     /**
      *
      * @var \CCDNForum\ForumBundle\Model\FrontModel\RegistryModel $registryModel
      */
-    private $registryModel;
+    protected $registryModel;
 
     /**
      *
      * @var \CCDNForum\ForumBundle\Model\FrontModel\SubscriptionModel $subscriptionModel
      */
-    private $subscriptionModel;
+    protected $subscriptionModel;
+
+    public function __construct()
+    {
+
+    }
 
     /**
      *
@@ -120,10 +149,6 @@ class BaseController extends ContainerAware
      */
     protected function getRouter()
     {
-        if (null == $this->router) {
-            $this->router = $this->container->get('router');
-        }
-
         return $this->router;
     }
 
@@ -146,10 +171,6 @@ class BaseController extends ContainerAware
      */
     protected function getTemplating()
     {
-        if (null == $this->templating) {
-            $this->templating = $this->container->get('templating');
-        }
-
         return $this->templating;
     }
 
@@ -160,17 +181,14 @@ class BaseController extends ContainerAware
      */
     protected function getRequest()
     {
-        if (null == $this->request) {
-            $this->request = $this->container->get('request');
-        }
-
-        return $this->request;
+        return $this->request->getCurrentRequest();
     }
 
     /**
      *
      * @access protected
      * @param  string $prefix
+     * @param bool $enforceNumericType
      * @return Array
      */
     protected function getCheckedItemIds($prefix = 'check_', $enforceNumericType = true)
@@ -247,7 +265,7 @@ class BaseController extends ContainerAware
      */
     protected function getEngine()
     {
-        return $this->container->getParameter('ccdn_forum_forum.template.engine');
+        return $this->engine;
     }
 
     /**
@@ -257,10 +275,6 @@ class BaseController extends ContainerAware
      */
     protected function getSecurityContext()
     {
-        if (null == $this->securityContext) {
-            $this->securityContext = $this->container->get('security.context');
-        }
-
         return $this->securityContext;
     }
 
@@ -292,7 +306,8 @@ class BaseController extends ContainerAware
     /**
      *
      * @access protected
-     * @param  string                                                           $role|boolean $role
+     * @param  string $role |boolean $role
+     * @return bool
      * @throws \Symfony\Component\Security\Core\Exception\AccessDeniedException
      */
     protected function isAuthorised($role)
@@ -315,10 +330,10 @@ class BaseController extends ContainerAware
     /**
      *
      * @access protected
-     * @param  \Object                                                      $item
-     * @param  string                                                       $message
+     * @param  \Object $item
+     * @param  string $message
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
      * @return bool
-     * @throws Symfony\Component\HttpKernel\Exception\NotFoundHttpException
      */
     protected function isFound($item, $message = null)
     {
@@ -336,10 +351,6 @@ class BaseController extends ContainerAware
 
     protected function dispatch($name, Event $event)
     {
-        if (! $this->dispatcher) {
-            $this->dispatcher = $this->container->get('event_dispatcher');
-        }
-
         $this->dispatcher->dispatch($name, $event);
     }
 
@@ -350,10 +361,6 @@ class BaseController extends ContainerAware
      */
     protected function getAuthorizer()
     {
-        if (null == $this->authorizer) {
-            $this->authorizer = $this->container->get('ccdn_forum_forum.component.security.authorizer');
-        }
-
         return $this->authorizer;
     }
 
@@ -364,10 +371,6 @@ class BaseController extends ContainerAware
      */
     protected function getForumModel()
     {
-        if (null == $this->forumModel) {
-            $this->forumModel = $this->container->get('ccdn_forum_forum.model.forum');
-        }
-
         return $this->forumModel;
     }
 
@@ -378,10 +381,6 @@ class BaseController extends ContainerAware
      */
     protected function getCategoryModel()
     {
-        if (null == $this->categoryModel) {
-            $this->categoryModel = $this->container->get('ccdn_forum_forum.model.category');
-        }
-
         return $this->categoryModel;
     }
 
@@ -392,10 +391,6 @@ class BaseController extends ContainerAware
      */
     protected function getBoardModel()
     {
-        if (null == $this->boardModel) {
-            $this->boardModel = $this->container->get('ccdn_forum_forum.model.board');
-        }
-
         return $this->boardModel;
     }
 
@@ -406,10 +401,6 @@ class BaseController extends ContainerAware
      */
     protected function getTopicModel()
     {
-        if (null == $this->topicModel) {
-            $this->topicModel = $this->container->get('ccdn_forum_forum.model.topic');
-        }
-
         return $this->topicModel;
     }
 
@@ -420,10 +411,6 @@ class BaseController extends ContainerAware
      */
     protected function getPostModel()
     {
-        if (null == $this->postModel) {
-            $this->postModel = $this->container->get('ccdn_forum_forum.model.post');
-        }
-
         return $this->postModel;
     }
 
@@ -434,10 +421,6 @@ class BaseController extends ContainerAware
      */
     protected function getRegistryModel()
     {
-        if (null == $this->registryModel) {
-            $this->registryModel = $this->container->get('ccdn_forum_forum.model.registry');
-        }
-
         return $this->registryModel;
     }
 
@@ -448,10 +431,6 @@ class BaseController extends ContainerAware
      */
     protected function getSubscriptionModel()
     {
-        if (null == $this->subscriptionModel) {
-            $this->subscriptionModel = $this->container->get('ccdn_forum_forum.model.subscription');
-        }
-
         return $this->subscriptionModel;
     }
 
@@ -461,7 +440,7 @@ class BaseController extends ContainerAware
      */
     protected function getCrumbs()
     {
-        return $this->container->get('ccdn_forum_forum.component.crumb_builder');
+        return $this->crumbs;
     }
 
     /**
@@ -471,6 +450,181 @@ class BaseController extends ContainerAware
      */
     protected function getPageHelper()
     {
-        return $this->container->get('ccdn_forum_forum.component.helper.pagination_config');
+        return $this->pageHelper;
+    }
+
+    /**
+     *
+     * @access public
+     * @param \Symfony\Bundle\TwigBundle\Debug\TimedTwigEngine $templating
+     * @return Templating
+     */
+    public function setTemplating(Templating $templating)
+    {
+        $this->templating = $templating;
+    }
+
+    /**
+     *
+     * @access public
+     * @param \Symfony\Bundle\FrameworkBundle\Routing\Router $router
+     * @return Router
+     */
+    public function setRouter(Router $router)
+    {
+        $this->router = $router;
+    }
+
+    /**
+     *
+     * @access public
+     * @param \Symfony\Component\Security\Core\SecurityContext $securityContext
+     * @return SecurityContext
+     */
+    public function setSecurityContext(SecurityContext $securityContext)
+    {
+        $this->securityContext = $securityContext;
+    }
+
+    /**
+     *
+     * @access public
+     * @param $engine
+     * @return string
+     */
+    public function setEngine($engine)
+    {
+        $this->engine = $engine;
+    }
+
+    /**
+     *
+     * @access public
+     * @param \Symfony\Component\HttpFoundation\RequestStack $request
+     * @return Request
+     */
+    public function setRequest(RequestStack $request)
+    {
+        $this->request = $request;
+    }
+
+    /**
+     *
+     * @access public
+     * @param \Symfony\Component\EventDispatcher\EventDispatcherInterface $dispatcher
+     * @return Dispatcher
+     */
+    public function setDispatcher(Dispatcher $dispatcher)
+    {
+        $this->dispatcher = $dispatcher;
+    }
+
+    /**
+     *
+     * @access public
+     * @param \CCDNForum\ForumBundle\Component\Security\Authorizer $authorizer
+     * @return Authorizer
+     */
+    public function setAuthorizer(Authorizer $authorizer)
+    {
+        $this->authorizer = $authorizer;
+    }
+
+    /**
+     *
+     * @access public
+     * @param \CCDNForum\ForumBundle\Model\FrontModel\ForumModel $forumModel
+     * @return FrontModel\ForumModel
+     */
+    public function setForumModel(FrontModel\ForumModel $forumModel)
+    {
+        $this->forumModel = $forumModel;
+    }
+
+    /**
+     *
+     * @access public
+     * @param \CCDNForum\ForumBundle\Model\FrontModel\CategoryModel $categoryModel
+     * @return FrontModel\CategoryModel
+     */
+    public function setCategoryModel(FrontModel\CategoryModel $categoryModel)
+    {
+        $this->categoryModel = $categoryModel;
+    }
+
+    /**
+     *
+     * @access public
+     * @param \CCDNForum\ForumBundle\Model\FrontModel\BoardModel $boardModel
+     * @return FrontModel\BoardModel
+     */
+    public function setBoardModel(FrontModel\BoardModel $boardModel)
+    {
+        $this->boardModel = $boardModel;
+    }
+
+    /**
+     *
+     * @access public
+     * @param \CCDNForum\ForumBundle\Model\FrontModel\PostModel $postModel
+     * @return FrontModel\PostModel
+     */
+    public function setPostModel(FrontModel\PostModel $postModel)
+    {
+        $this->postModel = $postModel;
+    }
+
+    /**
+     *
+     * @access public
+     * @param \CCDNForum\ForumBundle\Model\FrontModel\RegistryModel $registryModel
+     * @return FrontModel\RegistryModel
+     */
+    public function setRegistryModel(FrontModel\RegistryModel $registryModel)
+    {
+        $this->registryModel = $registryModel;
+    }
+
+    /**
+     *
+     * @access public
+     * @param \CCDNForum\ForumBundle\Model\FrontModel\SubscriptionModel $subscriptionModel
+     * @return FrontModel\SubscriptionModel
+     */
+    public function setSubscriptionModel(FrontModel\SubscriptionModel $subscriptionModel)
+    {
+        $this->subscriptionModel = $subscriptionModel;
+    }
+
+    /**
+     *
+     * @access public
+     *
+     */
+    public function setCrumbs($crumbs)
+    {
+        $this->crumbs = $crumbs;
+    }
+
+    /**
+     *
+     * @access public
+     * @param \CCDNForum\ForumBundle\Component\Helper\PaginationConfigHelper $pageHelper
+     * @return PageHelper
+     */
+    public function setPageHelper(PageHelper $pageHelper)
+    {
+        $this->pageHelper = $pageHelper;
+    }
+
+    /**
+     *
+     * @access public
+     * @param \CCDNForum\ForumBundle\Model\FrontModel\TopicModel $topicModel
+     * @return FrontModel\SubscriptionModel
+     */
+    public function setTopicModel(FrontModel\TopicModel $topicModel)
+    {
+        $this->topicModel = $topicModel;
     }
 }

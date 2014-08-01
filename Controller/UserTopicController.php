@@ -130,12 +130,14 @@ class UserTopicController extends UserTopicBaseController
      */
     public function replyAction($forumName, $topicId)
     {
+        if ($postId = $this->getRequest()->get('postId')) {
+            $postToQuote = $this->getPostModel()->findOnePostByIdWithTopicAndBoard($postId);
+        }
         $this->isAuthorised('ROLE_USER');
         $this->isFound($forum = $this->getForumModel()->findOneForumByName($forumName));
         $this->isFound($topic = $this->getTopicModel()->findOneTopicByIdWithPosts($topicId, true));
         $this->isAuthorised($this->getAuthorizer()->canReplyToTopic($topic, $forum));
-        $formHandler = $this->getFormHandlerToReplyToTopic($topic);
-
+        $formHandler = $this->getFormHandlerToReplyToTopic($topic, $postToQuote);
         $response = $this->renderResponse('CCDNForumForumBundle:User:Topic/reply.html.', array(
             'crumbs' => $this->getCrumbs()->addUserTopicReply($forum, $topic),
             'forum' => $forum,

@@ -42,7 +42,7 @@ CCDNForum\ForumBundle\Entity\Topic:
             nullable: true
     manyToOne:
         board:
-            targetEntity: CCDNForum\ForumBundle\Entity\Board
+            targetEntity: CCDNForum\ForumBundle\Entity\BoardInterface
             inversedBy: topics
             cascade: ["persist"]
             joinColumn:
@@ -50,14 +50,14 @@ CCDNForum\ForumBundle\Entity\Topic:
                 referencedColumnName: id
                 onDelete: SET NULL
         firstPost:
-            targetEntity: CCDNForum\ForumBundle\Entity\Post
+            targetEntity: CCDNForum\ForumBundle\Entity\PostInterface
             cascade: ["persist", "remove"]
             joinColumn:
                 name: fk_first_post_id
                 referencedColumnName: id
                 onDelete: SET NULL
         lastPost:
-            targetEntity: CCDNForum\ForumBundle\Entity\Post
+            targetEntity: CCDNForum\ForumBundle\Entity\PostInterface
             cascade: ["persist", "remove"]
             nullable: true
             joinColumn:

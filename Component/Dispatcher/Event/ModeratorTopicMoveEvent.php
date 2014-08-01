@@ -13,6 +13,8 @@
 
 namespace CCDNForum\ForumBundle\Component\Dispatcher\Event;
 
+use CCDNForum\ForumBundle\Entity\BoardInterface;
+use CCDNForum\ForumBundle\Entity\TopicInterface;
 use Symfony\Component\EventDispatcher\Event;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -64,9 +66,11 @@ class ModeratorTopicMoveEvent extends Event
      *
      * @access public
      * @param \Symfony\Component\HttpFoundation\Request $request
-     * @param \CCDNForum\ForumBundle\Entity\Topic       $topic
+     * @param \CCDNForum\ForumBundle\Entity\BoardInterface $oldBoard
+     * @param \CCDNForum\ForumBundle\Entity\BoardInterface $newBoard
+     * @param \CCDNForum\ForumBundle\Entity\TopicInterface $topic
      */
-    public function __construct(Request $request, Board $oldBoard, Board $newBoard, Topic $topic = null)
+    public function __construct(Request $request, BoardInterface $oldBoard, BoardInterface $newBoard, TopicInterface $topic = null)
     {
         $this->request = $request;
         $this->topic = $topic;

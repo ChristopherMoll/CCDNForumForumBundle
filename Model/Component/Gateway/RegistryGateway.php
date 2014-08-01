@@ -16,7 +16,7 @@ namespace CCDNForum\ForumBundle\Model\Component\Gateway;
 use Doctrine\ORM\QueryBuilder;
 use CCDNForum\ForumBundle\Model\Component\Gateway\GatewayInterface;
 use CCDNForum\ForumBundle\Model\Component\Gateway\BaseGateway;
-use CCDNForum\ForumBundle\Entity\Registry;
+use CCDNForum\ForumBundle\Entity\RegistryInterface;
 
 /**
  *
@@ -99,10 +99,10 @@ class RegistryGateway extends BaseGateway implements GatewayInterface
     /**
      *
      * @access public
-     * @param  \CCDNForum\ForumBundle\Entity\Registry                          $registry
+     * @param \CCDNForum\ForumBundle\Entity\RegistryInterface $registry
      * @return \CCDNForum\ForumBundle\Model\Component\Gateway\GatewayInterface
      */
-    public function saveRegistry(Registry $registry)
+    public function saveRegistry(RegistryInterface $registry)
     {
         $this->persist($registry)->flush();
 
@@ -112,10 +112,10 @@ class RegistryGateway extends BaseGateway implements GatewayInterface
     /**
      *
      * @access public
-     * @param  \CCDNForum\ForumBundle\Entity\Registry                          $registry
+     * @param \CCDNForum\ForumBundle\Entity\RegistryInterface $registry
      * @return \CCDNForum\ForumBundle\Model\Component\Gateway\GatewayInterface
      */
-    public function updateRegistry(Registry $registry)
+    public function updateRegistry(RegistryInterface $registry)
     {
         $this->persist($registry)->flush();
 
@@ -125,10 +125,10 @@ class RegistryGateway extends BaseGateway implements GatewayInterface
     /**
      *
      * @access public
-     * @param  \CCDNForum\ForumBundle\Entity\Registry                          $registry
+     * @param \CCDNForum\ForumBundle\Entity\RegistryInterface $registry
      * @return \CCDNForum\ForumBundle\Model\Component\Gateway\GatewayInterface
      */
-    public function deleteRegistry(Registry $registry)
+    public function deleteRegistry(RegistryInterface $registry)
     {
         $this->remove($registry)->flush();
 

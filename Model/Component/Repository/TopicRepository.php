@@ -185,8 +185,9 @@ class TopicRepository extends BaseRepository implements RepositoryInterface
     /**
      *
      * @access public
-     * @param  int                                 $topicId
-     * @param  bool                                $canViewDeletedTopics
+     * @param  int $topicId
+     * @param  bool $canViewDeletedTopics
+     * @throws \Exception
      * @return \CCDNForum\ForumBundle\Entity\Topic
      */
     public function findOneTopicByIdWithPosts($topicId, $canViewDeletedTopics = false)

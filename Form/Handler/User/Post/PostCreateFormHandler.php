@@ -22,8 +22,8 @@ use CCDNForum\ForumBundle\Component\Dispatcher\Event\UserTopicEvent;
 use CCDNForum\ForumBundle\Component\Dispatcher\Event\UserTopicFloodEvent;
 use CCDNForum\ForumBundle\Form\Handler\BaseFormHandler;
 use CCDNForum\ForumBundle\Model\FrontModel\ModelInterface;
-use CCDNForum\ForumBundle\Entity\Topic;
-use CCDNForum\ForumBundle\Entity\Post;
+use CCDNForum\ForumBundle\Entity\TopicInterface;
+use CCDNForum\ForumBundle\Entity\PostInterface;
 use CCDNForum\ForumBundle\Component\FloodControl;
 
 /**
@@ -72,16 +72,23 @@ class PostCreateFormHandler extends BaseFormHandler
      * @access private
      * @var \CCDNForum\ForumBundle\Component\FloodControl $floodControl
      */
-    private $floodControl;
+    protected $floodControl;
+
+    /**
+     *
+     * @access private
+     * @var Symfony\Component\Form\Form
+     */
+    protected $form;
 
     /**
      *
      * @access public
-     * @param \Symfony\Component\EventDispatcher\EventDispatcherInterface   $dispatcher
-     * @param \Symfony\Component\Form\FormFactory                           $factory
-     * @param \CCDNForum\ForumBundle\Form\Type\User\Post\PostCreateFormType $formPostType
-     * @param \CCDNForum\ForumBundle\Model\FrontModel\PostModel             $postModel
-     * @param \CCDNForum\ForumBundle\Component\FloodControl                 $floodControl
+     * @param \Symfony\Component\EventDispatcher\EventDispatcherInterface $dispatcher
+     * @param \Symfony\Component\Form\FormFactory $factory
+     * @param $formPostType
+     * @param \CCDNForum\ForumBundle\Model\FrontModel\ModelInterface $postModel
+     * @param \CCDNForum\ForumBundle\Component\FloodControl $floodControl
      */
     public function __construct(EventDispatcherInterface $dispatcher, FormFactory $factory, $formPostType, ModelInterface $postModel, FloodControl $floodControl)
     {
@@ -95,10 +102,10 @@ class PostCreateFormHandler extends BaseFormHandler
     /**
      *
      * @access public
-     * @param  \CCDNForum\ForumBundle\Entity\Topic                                 $topic
+     * @param \CCDNForum\ForumBundle\Entity\TopicInterface $topic
      * @return \CCDNForum\ForumBundle\Form\Handler\User\Post\PostCreateFormHandler
      */
-    public function setTopic(Topic $topic)
+    public function setTopic(TopicInterface $topic)
     {
         $this->topic = $topic;
 
@@ -108,10 +115,10 @@ class PostCreateFormHandler extends BaseFormHandler
     /**
      *
      * @access public
-     * @param  \CCDNForum\ForumBundle\Entity\Post                                  $post
+     * @param \CCDNForum\ForumBundle\Entity\PostInterface $post
      * @return \CCDNForum\ForumBundle\Form\Handler\User\Post\PostCreateFormHandler
      */
-    public function setPostToQuote(Post $post)
+    public function setPostToQuote(PostInterface $post)
     {
         $this->postToQuote = $post;
 
@@ -125,7 +132,7 @@ class PostCreateFormHandler extends BaseFormHandler
      */
     public function process()
     {
-        $this->getForm();
+        $form = $this->getForm();
 
         if ($this->floodControl->isFlooded()) {
             $this->dispatcher->dispatch(ForumEvents::USER_TOPIC_REPLY_FLOODED, new UserTopicFloodEvent($this->request));
@@ -136,12 +143,12 @@ class PostCreateFormHandler extends BaseFormHandler
         $this->floodControl->incrementCounter();
 
         if ($this->request->getMethod() == 'POST') {
-            $this->form->bind($this->request);
+            $form->handleRequest($this->request);
 
             // Validate
-            if ($this->form->isValid()) {
+            if ($form->isValid()) {
                 if ($this->getSubmitAction() == 'post') {
-                    $formData = $this->form->getData();
+                    $formData = $form->getData();
 
                     $this->onSuccess($formData);
 
@@ -162,7 +169,7 @@ class PostCreateFormHandler extends BaseFormHandler
     {
         $quote = "";
 
-        if (is_object($this->postToQuote) && $this->postToQuote instanceof Post) {
+        if (is_object($this->postToQuote) && $this->postToQuote instanceof PostInterface) {
             $author = $this->postToQuote->getCreatedBy();
             $body = $this->postToQuote->getBody();
 
@@ -175,12 +182,13 @@ class PostCreateFormHandler extends BaseFormHandler
     /**
      *
      * @access public
+     * @throws \Exception
      * @return \Symfony\Component\Form\Form
      */
     public function getForm()
     {
         if (null == $this->form) {
-            if (! is_object($this->topic) || ! ($this->topic instanceof Topic)) {
+            if (! is_object($this->topic) || ! ($this->topic instanceof TopicInterface)) {
                 throw new \Exception('Topic must be specified to create a Reply in PostCreateFormHandler');
             }
 
@@ -199,9 +207,9 @@ class PostCreateFormHandler extends BaseFormHandler
     /**
      *
      * @access protected
-     * @param \CCDNForum\ForumBundle\Entity\Post $post
+     * @param \CCDNForum\ForumBundle\Entity\PostInterface $post
      */
-    protected function onSuccess(Post $post)
+    protected function onSuccess(PostInterface $post)
     {
         $post->setCreatedDate(new \DateTime());
         $post->setCreatedBy($this->user);

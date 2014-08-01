@@ -15,7 +15,7 @@ CCDNForum\ForumBundle\Entity\Subscription:
             nullable: false
     manyToOne:
         forum:
-            targetEntity: CCDNForum\ForumBundle\Entity\Forum
+            targetEntity: CCDNForum\ForumBundle\Entity\ForumInterface
             cascade: []
             nullable: true
             joinColumn:
@@ -23,7 +23,7 @@ CCDNForum\ForumBundle\Entity\Subscription:
                 referencedColumnName: id
                 onDelete: SET NULL
         topic:
-            targetEntity: CCDNForum\ForumBundle\Entity\Topic
+            targetEntity: CCDNForum\ForumBundle\Entity\TopicInterface
             cascade: ["persist"]
             inversedBy: subscriptions
             nullable: true

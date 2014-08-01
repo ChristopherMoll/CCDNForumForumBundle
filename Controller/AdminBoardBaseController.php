@@ -14,6 +14,9 @@
 namespace CCDNForum\ForumBundle\Controller;
 
 use CCDNForum\ForumBundle\Entity\Board;
+use CCDNForum\ForumBundle\Form\Handler\Admin\Board\BoardCreateFormHandler;
+use CCDNForum\ForumBundle\Form\Handler\Admin\Board\BoardDeleteFormHandler;
+use CCDNForum\ForumBundle\Form\Handler\Admin\Board\BoardUpdateFormHandler;
 
 /**
  *
@@ -28,14 +31,27 @@ use CCDNForum\ForumBundle\Entity\Board;
  */
 class AdminBoardBaseController extends BaseController
 {
+    protected $boardCreateFormHandler;
+    protected $boardUpdateFormHandler;
+    protected $boardDeleteFormHandler;
+
+
+    public function __construct(BoardCreateFormHandler $boardCreateFormHandler, BoardUpdateFormHandler $boardUpdateFormHandler, BoardDeleteFormHandler $boardDeleteFormHandler)
+    {
+        $this->boardCreateFormHandler = $boardCreateFormHandler;
+        $this->boardUpdateFormHandler = $boardUpdateFormHandler;
+        $this->boardDeleteFormHandler = $boardDeleteFormHandler;
+    }
+
     /**
      *
      * @access protected
+     * @param null $categoryFilter
      * @return \CCDNForum\ForumBundle\Form\Handler\BoardCreateFormHandler
      */
     protected function getFormHandlerToCreateBoard($categoryFilter = null)
     {
-        $formHandler = $this->container->get('ccdn_forum_forum.form.handler.board_create');
+        $formHandler = $this->boardCreateFormHandler;
 
         $formHandler->setRequest($this->getRequest());
 
@@ -53,11 +69,12 @@ class AdminBoardBaseController extends BaseController
     /**
      *
      * @access protected
+     * @param \CCDNForum\ForumBundle\Entity\Board $board
      * @return \CCDNForum\ForumBundle\Form\Handler\BoardUpdateFormHandler
      */
     protected function getFormHandlerToUpdateBoard(Board $board)
     {
-        $formHandler = $this->container->get('ccdn_forum_forum.form.handler.board_update');
+        $formHandler = $this->boardUpdateFormHandler;
 
         $formHandler->setRequest($this->getRequest());
 
@@ -69,11 +86,12 @@ class AdminBoardBaseController extends BaseController
     /**
      *
      * @access protected
+     * @param \CCDNForum\ForumBundle\Entity\Board $board
      * @return \CCDNForum\ForumBundle\Form\Handler\BoardDeleteFormHandler
      */
     protected function getFormHandlerToDeleteBoard(Board $board)
     {
-        $formHandler = $this->container->get('ccdn_forum_forum.form.handler.board_delete');
+        $formHandler = $this->boardDeleteFormHandler;
 
         $formHandler->setRequest($this->getRequest());
 

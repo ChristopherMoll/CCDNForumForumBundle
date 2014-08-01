@@ -23,7 +23,7 @@ use CCDNForum\ForumBundle\Component\Dispatcher\ForumEvents;
 use CCDNForum\ForumBundle\Component\Dispatcher\Event\AdminForumEvent;
 use CCDNForum\ForumBundle\Form\Handler\BaseFormHandler;
 use CCDNForum\ForumBundle\Model\FrontModel\ModelInterface;
-use CCDNForum\ForumBundle\Entity\Forum;
+use CCDNForum\ForumBundle\Entity\ForumInterface;
 
 /**
  *
@@ -62,10 +62,10 @@ class ForumDeleteFormHandler extends BaseFormHandler
     /**
      *
      * @access public
-     * @param \Symfony\Component\EventDispatcher\EventDispatcherInterface      $dispatcher
-     * @param \Symfony\Component\Form\FormFactory                              $factory
-     * @param \CCDNForum\ForumBundle\Form\Type\Admin\Forum\ForumDeleteFormType $forumDeleteFormType
-     * @param \CCDNForum\ForumBundle\Model\FrontModel\ForumModel               $forumModel
+     * @param \Symfony\Component\EventDispatcher\EventDispatcherInterface $dispatcher
+     * @param \Symfony\Component\Form\FormFactory $factory
+     * @param $forumDeleteFormType
+     * @param \CCDNForum\ForumBundle\Model\FrontModel\ModelInterface $forumModel
      */
     public function __construct(EventDispatcherInterface $dispatcher, FormFactory $factory, $forumDeleteFormType, ModelInterface $forumModel)
     {
@@ -78,10 +78,10 @@ class ForumDeleteFormHandler extends BaseFormHandler
     /**
      *
      * @access public
-     * @param  \CCDNForum\ForumBundle\Entity\Forum                                    $forum
-     * @return \CCDNForum\ForumBundle\Form\Handler\Admin\Forum\ForumDeleteFormHandler
+     * @param \CCDNForum\ForumBundle\Entity\Forum|\CCDNForum\ForumBundle\Entity\ForumInterface $forum
+     * @return $this
      */
-    public function setForum(Forum $forum)
+    public function setForum(ForumInterface $forum)
     {
         $this->forum = $forum;
 
@@ -91,7 +91,8 @@ class ForumDeleteFormHandler extends BaseFormHandler
     /**
      *
      * @access public
-     * @return \Symfony\Component\Form\Form
+     * @throws \Exception
+     * @return \Symfony\Component\Form\Form|\Symfony\Component\Form\FormInterface
      */
     public function getForm()
     {
@@ -111,9 +112,9 @@ class ForumDeleteFormHandler extends BaseFormHandler
     /**
      *
      * @access protected
-     * @param \CCDNForum\ForumBundle\Entity\Forum $forum
+     * @param \CCDNForum\ForumBundle\Entity\ForumInterface $forum
      */
-    protected function onSuccess(Forum $forum)
+    protected function onSuccess(ForumInterface $forum)
     {
         $this->dispatcher->dispatch(ForumEvents::ADMIN_FORUM_DELETE_SUCCESS, new AdminForumEvent($this->request, $forum));
 

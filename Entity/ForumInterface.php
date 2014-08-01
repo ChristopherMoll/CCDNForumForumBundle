@@ -26,14 +26,11 @@ use Symfony\Component\Security\Core\SecurityContextInterface;
  * @link     https://github.com/codeconsortium/CCDNForumForumBundle
  *
  */
-interface CategoryInterface
+interface ForumInterface
 {
-    public function forumName();
     public function getId();
     public function getName();
     public function setName($name);
-    public function getListOrderPriority();
-    public function setListOrderPriority($listOrderPriority);
     public function getReadAuthorisedRoles();
     public function setReadAuthorisedRoles(array $roles = null);
     public function hasReadAuthorisedRole($role);

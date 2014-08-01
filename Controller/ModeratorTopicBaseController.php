@@ -15,6 +15,8 @@ namespace CCDNForum\ForumBundle\Controller;
 
 use CCDNForum\ForumBundle\Entity\Forum;
 use CCDNForum\ForumBundle\Entity\Topic;
+use CCDNForum\ForumBundle\Form\Handler\Moderator\Topic\TopicChangeBoardFormHandler;
+use CCDNForum\ForumBundle\Form\Handler\User\Topic\TopicCreateFormHandler;
 
 /**
  *
@@ -29,6 +31,31 @@ use CCDNForum\ForumBundle\Entity\Topic;
  */
 class ModeratorTopicBaseController extends BaseController
 {
+    protected $topicCreateFormHandler;
+    protected $topicChangeBoardFormHandler;
+
+    public function __construct(TopicCreateFormHandler $topicCreateFormHandler, TopicChangeBoardFormHandler $topicChangeBoardFormHandler)
+    {
+        $this->topicCreateFormHandler = $topicCreateFormHandler;
+        $this->topicChangeBoardFormHandler = $topicChangeBoardFormHandler;
+    }
+
+    /**
+     * @param \CCDNForum\ForumBundle\Form\Handler\Moderator\Topic\TopicChangeBoardFormHandler $topicChangeBoardFormHandler
+     */
+    public function setTopicChangeBoardFormHandler(TopicChangeBoardFormHandler $topicChangeBoardFormHandler)
+    {
+        $this->topicChangeBoardFormHandler = $topicChangeBoardFormHandler;
+    }
+
+    /**
+     * @param \CCDNForum\ForumBundle\Form\Handler\User\Topic\TopicCreateFormHandler $topicCreateFormHandler
+     */
+    public function setTopicCreateFormHandler(TopicCreateFormHandler $topicCreateFormHandler)
+    {
+        $this->topicCreateFormHandler = $topicCreateFormHandler;
+    }
+
     /**
      *
      * @access protected
@@ -37,7 +64,7 @@ class ModeratorTopicBaseController extends BaseController
      */
     protected function getFormHandlerToDeleteTopic(Topic $topic)
     {
-        $formHandler = $this->container->get('ccdn_forum_forum.form.handler.topic_delete');
+        $formHandler = $this->$topicCreateFormHandler;
 
         $formHandler->setTopic($topic);
         $formHandler->setUser($this->getUser());
@@ -55,7 +82,7 @@ class ModeratorTopicBaseController extends BaseController
      */
     protected function getFormHandlerToChangeBoardOnTopic(Forum $forum, Topic $topic)
     {
-        $formHandler = $this->container->get('ccdn_forum_forum.form.handler.change_topics_board');
+        $formHandler = $this->topicCreateFormHandler;
 
         $formHandler->setForum($forum);
         $formHandler->setTopic($topic);

@@ -13,13 +13,21 @@
 
 namespace CCDNForum\ForumBundle\Entity\Model;
 
+use CCDNForum\ForumBundle\Entity\TopicInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
-
+use Doctrine\ORM\Mapping as ORM;
 use CCDNForum\ForumBundle\Entity\Topic as ConcreteTopic;
 
+/**
+ * Class Post
+ * @package CCDNForum\ForumBundle\Entity\Model
+ */
 abstract class Post
 {
-    /** @var Topic $topic */
+    /**
+     * @var TopicInterface $topic
+     * @
+     */
     protected $topic = null;
 
     /** @var UserInterface $createdBy */
@@ -49,7 +57,7 @@ abstract class Post
     /**
      * Get topic
      *
-     * @return Topic
+     * @return TopicInterface
      */
     public function getTopic()
     {
@@ -59,10 +67,10 @@ abstract class Post
     /**
      * Set topic
      *
-     * @param  Topic $topic
+     * @param \CCDNForum\ForumBundle\Entity\TopicInterface $topic
      * @return Post
      */
-    public function setTopic(ConcreteTopic $topic = null)
+    public function setTopic(TopicInterface $topic = null)
     {
         $this->topic = $topic;
 

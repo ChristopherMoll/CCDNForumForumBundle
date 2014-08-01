@@ -32,7 +32,7 @@ CCDNForum\ForumBundle\Entity\Board:
             nullable: true
     manyToOne:
         category:
-            targetEntity: CCDNForum\ForumBundle\Entity\Category
+            targetEntity: CCDNForum\ForumBundle\Entity\CategoryInterface
             inversedBy: boards
             nullable: true
             joinColumn:
@@ -40,7 +40,7 @@ CCDNForum\ForumBundle\Entity\Board:
                 referencedColumnName: id
                 onDelete: SET NULL
         lastPost:
-            targetEntity: CCDNForum\ForumBundle\Entity\Post
+            targetEntity: CCDNForum\ForumBundle\Entity\PostInterface
             cascade: ["persist", "detach"]
             nullable: true
             joinColumn:

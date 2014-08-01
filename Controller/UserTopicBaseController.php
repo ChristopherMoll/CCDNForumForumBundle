@@ -15,7 +15,11 @@ namespace CCDNForum\ForumBundle\Controller;
 
 use CCDNForum\ForumBundle\Entity\Forum;
 use CCDNForum\ForumBundle\Entity\Board;
+use CCDNForum\ForumBundle\Entity\PostInterface;
 use CCDNForum\ForumBundle\Entity\Topic;
+use CCDNForum\ForumBundle\Entity\TopicInterface;
+use CCDNForum\ForumBundle\Form\Handler\User\Post\PostCreateFormHandler;
+use CCDNForum\ForumBundle\Form\Handler\User\Topic\TopicCreateFormHandler;
 
 /**
  *
@@ -30,6 +34,16 @@ use CCDNForum\ForumBundle\Entity\Topic;
  */
 class UserTopicBaseController extends BaseController
 {
+    protected $postCreateFormHandler;
+    protected $topicCreateFormHandler;
+
+
+
+    public function __construct(PostCreateFormHandler $postCreateFormHandler, TopicCreateFormHandler $topicCreateFormHandler)
+    {
+        $this->postCreateFormHandler = $postCreateFormHandler;
+        $this->topicCreateFormHandler = $topicCreateFormHandler;
+    }
     /**
      *
      * @access protected
@@ -39,7 +53,7 @@ class UserTopicBaseController extends BaseController
      */
     protected function getFormHandlerToCreateTopic(Forum $forum, Board $board)
     {
-        $formHandler = $this->container->get('ccdn_forum_forum.form.handler.topic_create');
+        $formHandler = $this->topicCreateFormHandler;
 
         $formHandler->setForum($forum);
         $formHandler->setBoard($board);
@@ -52,16 +66,21 @@ class UserTopicBaseController extends BaseController
     /**
      *
      * @access protected
-     * @param  \CCDNForum\ForumBundle\Entity\Topic                        $topic
-     * @return \CCDNForum\ForumBundle\Form\Handler\TopicCreateFormHandler
+     * @param  \CCDNForum\ForumBundle\Entity\TopicInterface $topic
+     * @param \CCDNForum\ForumBundle\Entity\PostInterface $postToQuote
+     * @return \CCDNForum\ForumBundle\Form\Handler\User\Topic\TopicCreateFormHandler
      */
-    protected function getFormHandlerToReplyToTopic(Topic $topic)
+    protected function getFormHandlerToReplyToTopic(TopicInterface $topic, $postToQuote = null)
     {
-        $formHandler = $this->container->get('ccdn_forum_forum.form.handler.post_create');
+        $formHandler = $this->postCreateFormHandler;
 
         $formHandler->setTopic($topic);
         $formHandler->setUser($this->getUser());
         $formHandler->setRequest($this->getRequest());
+
+        if(is_subclass_of($postToQuote, 'CCDNForum\ForumBundle\Entity\PostInterface')) {
+            $formHandler->setPostToQuote($postToQuote);
+        }
 
         return $formHandler;
     }

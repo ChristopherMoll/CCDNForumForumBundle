@@ -20,7 +20,7 @@ use CCDNForum\ForumBundle\Model\Component\Manager\ManagerInterface;
 use CCDNForum\ForumBundle\Model\Component\Manager\BaseManager;
 use CCDNForum\ForumBundle\Component\Helper\PostLockHelper;
 
-use CCDNForum\ForumBundle\Entity\Post;
+use CCDNForum\ForumBundle\Entity\PostInterface;
 
 /**
  *
@@ -45,7 +45,7 @@ class PostManager extends BaseManager implements ManagerInterface
     /**
      *
      * @access public
-     * @param \CCDNForum\ForumBundle\Gateway\GatewayInterface        $gateway
+     * @param \CCDNForum\ForumBundle\Model\Component\Gateway\GatewayInterface $gateway
      * @param \CCDNForum\ForumBundle\Component\Helper\PostLockHelper $postLockHelper
      */
     public function __construct(GatewayInterface $gateway, PostLockHelper $postLockHelper)
@@ -67,10 +67,10 @@ class PostManager extends BaseManager implements ManagerInterface
     /**
      *
      * @access public
-     * @param  \CCDNForum\ForumBundle\Entity\Post              $post
+     * @param \CCDNForum\ForumBundle\Entity\PostInterface $post
      * @return \CCDNForum\ForumBundle\Manager\ManagerInterface
      */
-    public function savePost(Post $post)
+    public function savePost(PostInterface $post)
     {
         $this->postLockHelper->setLockLimitOnPost($post);
 
@@ -85,10 +85,10 @@ class PostManager extends BaseManager implements ManagerInterface
     /**
      *
      * @access public
-     * @param  \CCDNForum\ForumBundle\Entity\Post              $post
+     * @param \CCDNForum\ForumBundle\Entity\PostInterface $post
      * @return \CCDNForum\ForumBundle\Manager\ManagerInterface
      */
-    public function updatePost(Post $post)
+    public function updatePost(PostInterface $post)
     {
         $this->gateway->updatePost($post);
 
@@ -98,10 +98,10 @@ class PostManager extends BaseManager implements ManagerInterface
     /**
      *
      * @access public
-     * @param  \CCDNForum\ForumBundle\Entity\Post              $post
+     * @param \CCDNForum\ForumBundle\Entity\PostInterface $post
      * @return \CCDNForum\ForumBundle\Manager\ManagerInterface
      */
-    public function lock(Post $post)
+    public function lock(PostInterface $post)
     {
         $post->setUnlockedUntilDate(new \Datetime('now'));
         $this->persist($post)->flush();
@@ -113,10 +113,10 @@ class PostManager extends BaseManager implements ManagerInterface
     /**
      *
      * @access public
-     * @param  \CCDNForum\ForumBundle\Entity\Post              $post
+     * @param \CCDNForum\ForumBundle\Entity\PostInterface $post
      * @return \CCDNForum\ForumBundle\Manager\ManagerInterface
      */
-    public function restore(Post $post)
+    public function restore(PostInterface $post)
     {
         $post->setDeleted(false);
         $post->setDeletedBy(null);
@@ -145,11 +145,11 @@ class PostManager extends BaseManager implements ManagerInterface
     /**
      *
      * @access public
-     * @param  \CCDNForum\ForumBundle\Entity\Post                  $post
+     * @param \CCDNForum\ForumBundle\Entity\PostInterface $post
      * @param  \Symfony\Component\Security\Core\User\UserInterface $user
      * @return \CCDNForum\ForumBundle\Manager\ManagerInterface
      */
-    public function softDelete(Post $post, UserInterface $user)
+    public function softDelete(PostInterface $post, UserInterface $user)
     {
         // Don't overwite previous users accountability.
         if (! $post->getDeletedBy() && ! $post->getDeletedDate()) {

@@ -13,6 +13,7 @@
 
 namespace CCDNForum\ForumBundle\Component\Dispatcher\Event;
 
+use CCDNForum\ForumBundle\Entity\CategoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -41,11 +42,11 @@ class AdminCategoryResponseEvent extends AdminCategoryEvent
     /**
      *
      * @access public
-     * @param \Symfony\Component\HttpFoundation\Request  $request
+     * @param \Symfony\Component\HttpFoundation\Request $request
      * @param \Symfony\Component\HttpFoundation\Response $response
-     * @param \CCDNForum\ForumBundle\Entity\Category     $category
+     * @param \CCDNForum\ForumBundle\Entity\CategoryInterface $category
      */
-    public function __construct(Request $request, Response $response, Category $category = null)
+    public function __construct(Request $request, Response $response, CategoryInterface $category = null)
     {
         $this->request = $request;
         $this->response = $response;

@@ -13,6 +13,7 @@
 
 namespace CCDNForum\ForumBundle\Component\Dispatcher\Event;
 
+use CCDNForum\ForumBundle\Entity\TopicInterface;
 use Symfony\Component\EventDispatcher\Event;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -56,10 +57,10 @@ class UserTopicEvent extends Event
      *
      * @access public
      * @param \Symfony\Component\HttpFoundation\Request $request
-     * @param \CCDNForum\ForumBundle\Entity\Topic       $topic
-     * @param bool                                      $subscribe
+     * @param \CCDNForum\ForumBundle\Entity\TopicInterface $topic
+     * @param bool $subscribe
      */
-    public function __construct(Request $request, Topic $topic = null, $subscribe = false)
+    public function __construct(Request $request, TopicInterface $topic = null, $subscribe = false)
     {
         $this->request = $request;
         $this->topic = $topic;
