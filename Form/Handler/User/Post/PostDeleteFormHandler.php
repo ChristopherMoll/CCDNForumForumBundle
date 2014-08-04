@@ -76,10 +76,10 @@ class PostDeleteFormHandler extends BaseFormHandler
     /**
      *
      * @access public
-     * @param Post $post
+     * @param PostInterface $post
      * @return \CCDNForum\ForumBundle\Form\Handler\User\Post\PostDeleteFormHandler
      */
-    public function setPost(Post $post)
+    public function setPost(PostInterface $post)
     {
         $this->post = $post;
 
