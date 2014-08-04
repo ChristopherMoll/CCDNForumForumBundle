@@ -31,7 +31,7 @@ CCDNForum\ForumBundle\Entity\Post:
     manyToOne:
         topic:
             targetEntity: CCDNForum\ForumBundle\Entity\TopicInterface
-            cascade: ["persist"]
+            cascade: ["all"]
             inversedBy: posts
             #nullable: true
             joinColumn:
