@@ -42,7 +42,7 @@ class UserTopicEvent extends Event
     /**
      *
      * @access protected
-     * @var \CCDNForum\ForumBundle\Entity\Topic $topic
+     * @var \CCDNForum\ForumBundle\Entity\TopicInterface $topic
      */
     protected $topic;
 
@@ -80,7 +80,7 @@ class UserTopicEvent extends Event
     /**
      *
      * @access public
-     * @return \CCDNForum\ForumBundle\Entity\Topic
+     * @return \CCDNForum\ForumBundle\Entity\TopicInterface
      */
     public function getTopic()
     {

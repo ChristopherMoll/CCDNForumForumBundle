@@ -133,6 +133,9 @@ class UserTopicController extends UserTopicBaseController
         if ($postId = $this->getRequest()->get('postId')) {
             $postToQuote = $this->getPostModel()->findOnePostByIdWithTopicAndBoard($postId);
         }
+        else {
+            $postToQuote = null;
+        }
         $this->isAuthorised('ROLE_USER');
         $this->isFound($forum = $this->getForumModel()->findOneForumByName($forumName));
         $this->isFound($topic = $this->getTopicModel()->findOneTopicByIdWithPosts($topicId, true));
