@@ -13,6 +13,9 @@
 
 namespace CCDNForum\ForumBundle\Component\Dispatcher\Listener;
 
+use CCDNForum\ForumBundle\Entity\BoardInterface;
+use CCDNForum\ForumBundle\Entity\PostInterface;
+use CCDNForum\ForumBundle\Entity\TopicInterface;
 use Symfony\Component\EventDispatcher\Event;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use CCDNForum\ForumBundle\Component\Dispatcher\ForumEvents;
@@ -153,9 +156,9 @@ class StatListener implements EventSubscriberInterface
     /**
      *
      * @access protected
-     * @param \CCDNForum\ForumBundle\Entity\Topic $topic
+     * @param \CCDNForum\ForumBundle\Entity\TopicInterface $topic
      */
-    protected function updateTopicStats(Topic $topic)
+    protected function updateTopicStats(TopicInterface $topic)
     {
         if ($topic->getId()) {
             // Get stats.
@@ -175,9 +178,9 @@ class StatListener implements EventSubscriberInterface
     /**
      *
      * @access protected
-     * @param \CCDNForum\ForumBundle\Entity\Board $board
+     * @param \CCDNForum\ForumBundle\Entity\BoardInterface $board
      */
-    protected function updateBoardStats(Board $board)
+    protected function updateBoardStats(BoardInterface $board)
     {
         if ($board) {
             if ($board->getId()) {
@@ -204,10 +207,10 @@ class StatListener implements EventSubscriberInterface
     /**
      *
      * @access protected
-     * @param  \CCDNForum\ForumBundle\Entity\Topic      $topic
-     * @return null|\CCDNForum\ForumBundle\Entity\Board
+     * @param  \CCDNForum\ForumBundle\Entity\TopicInterface      $topic
+     * @return null|\CCDNForum\ForumBundle\Entity\BoardInterface
      */
-    private function extractBoardFromTopic(Topic $topic)
+    private function extractBoardFromTopic(TopicInterface $topic)
     {
         if ($topic) {
             if ($topic->getId()) {
@@ -221,9 +224,9 @@ class StatListener implements EventSubscriberInterface
     /**
      *
      * @access protected
-     * @param \CCDNForum\ForumBundle\Entity\Post $post
+     * @param \CCDNForum\ForumBundle\Entity\PostInterface $post
      */
-    protected function updateRegistryStats(Post $post)
+    protected function updateRegistryStats(PostInterface $post)
     {
         $user = $post->getCreatedBy();
 
