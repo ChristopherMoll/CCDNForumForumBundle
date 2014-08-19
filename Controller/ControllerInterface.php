@@ -20,7 +20,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Security\Core\SecurityContext;
 use Symfony\Bundle\FrameworkBundle\Routing\Router;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface as Dispatcher;
-use Symfony\Bundle\TwigBundle\Debug\TimedTwigEngine as Templating;
+use Symfony\Bundle\TwigBundle\TwigEngine as Templating;
 
 
 /**
@@ -39,7 +39,7 @@ interface ControllerInterface
     /**
      *
      * @access public
-     * @param \Symfony\Bundle\TwigBundle\Debug\TimedTwigEngine $templating
+     * @param \Symfony\Bundle\TwigBundle\TwigEngine $templating
      * @return Templating
      */
     public function setTemplating(Templating $templating);

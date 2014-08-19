@@ -23,7 +23,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\EventDispatcher\Event;
-use Symfony\Bundle\TwigBundle\Debug\TimedTwigEngine as Templating;
+use Symfony\Bundle\TwigBundle\TwigEngine as Templating;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 use CCDNForum\ForumBundle\Entity\Topic;
@@ -51,7 +51,7 @@ class BaseController implements ControllerInterface
 
     /**
      *
-     * @var \Symfony\Bundle\TwigBundle\Debug\TimedTwigEngine $templating
+     * @var \Symfony\Bundle\TwigBundle\Debug\TwigEngine $templating
      */
     protected $templating;
 
@@ -167,7 +167,7 @@ class BaseController implements ControllerInterface
     /**
      *
      * @access protected
-     * @return \Symfony\Bundle\TwigBundle\Debug\TimedTwigEngine
+     * @return \Symfony\Bundle\TwigBundle\Debug\TwigEngine
      */
     protected function getTemplating()
     {
@@ -456,7 +456,7 @@ class BaseController implements ControllerInterface
     /**
      *
      * @access public
-     * @param \Symfony\Bundle\TwigBundle\Debug\TimedTwigEngine $templating
+     * @param \Symfony\Bundle\TwigBundle\TwigEngine $templating
      * @return Templating
      */
     public function setTemplating(Templating $templating)
