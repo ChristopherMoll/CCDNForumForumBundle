@@ -46,7 +46,7 @@ class UserSubscriptionController extends BaseController
      */
     public function indexAction($forumName)
     {
-        $this->isAuthorised('ROLE_USER');
+        $this->isAuthorised('IS_AUTHENTICATED_REMEMBERED');
 
         if ($forumName != '~') {
             $this->isFound($forum = $this->getForumModel()->findOneForumByName($forumName));
@@ -130,7 +130,7 @@ class UserSubscriptionController extends BaseController
      */
     public function subscribeAction($forumName, $topicId)
     {
-        $this->isAuthorised('ROLE_USER');
+        $this->isAuthorised('IS_AUTHENTICATED_REMEMBERED');
 
         if ($forumName != '~') {
             $this->isFound($forum = $this->getForumModel()->findOneForumByName($forumName));
@@ -158,7 +158,7 @@ class UserSubscriptionController extends BaseController
      */
     public function unsubscribeAction($forumName, $topicId)
     {
-        $this->isAuthorised('ROLE_USER');
+        $this->isAuthorised('IS_AUTHENTICATED_REMEMBERED');
 
         if ($forumName != '~') {
             $this->isFound($forum = $this->getForumModel()->findOneForumByName($forumName));

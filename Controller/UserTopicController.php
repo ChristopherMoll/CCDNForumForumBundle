@@ -45,7 +45,7 @@ class UserTopicController extends UserTopicBaseController
         $this->isAuthorised($this->getAuthorizer()->canShowTopic($topic, $forum));
         $postsPager = $this->getPostModel()->findAllPostsPaginatedByTopicId($topicId, $this->getQuery('page', 1), $this->getPageHelper()->getPostsPerPageOnTopics(), true);
 
-        if ($this->isGranted('ROLE_USER')) {
+        if ($this->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
             if ($subscription = $this->getSubscriptionModel()->findOneSubscriptionForTopicByIdAndUserById($topicId, $this->getUser()->getId())) {
                 $this->getSubscriptionModel()->markAsRead($subscription);
             }
@@ -73,7 +73,7 @@ class UserTopicController extends UserTopicBaseController
      */
     public function createAction($forumName, $boardId)
     {
-        $this->isAuthorised('ROLE_USER');
+        $this->isAuthorised('IS_AUTHENTICATED_REMEMBERED');
         $this->isFound($forum = $this->getForumModel()->findOneForumByName($forumName));
         $this->isFound($board = $this->getBoardModel()->findOneBoardByIdWithCategory($boardId));
         $this->isAuthorised($this->getAuthorizer()->canCreateTopicOnBoard($board, $forum));
@@ -101,14 +101,15 @@ class UserTopicController extends UserTopicBaseController
      */
     public function createProcessAction($forumName, $boardId)
     {
-        $this->isAuthorised('ROLE_USER');
+        $this->isAuthorised('IS_AUTHENTICATED_REMEMBERED');
         $this->isFound($forum = $this->getForumModel()->findOneForumByName($forumName));
         $this->isFound($board = $this->getBoardModel()->findOneBoardByIdWithCategory($boardId));
         $this->isAuthorised($this->getAuthorizer()->canCreateTopicOnBoard($board, $forum));
         $formHandler = $this->getFormHandlerToCreateTopic($forum, $board);
 
         if ($formHandler->process()) {
-            $response = $this->redirectResponseForTopicOnPageFromPost($forumName, $formHandler->getForm()->getData()->getTopic(), $formHandler->getForm()->getData());
+            $topic = $formHandler->getForm()->getData()->getTopic();
+            $response = $this->redirectResponseForTopicOnPageFromPost($forumName, $topic, $formHandler->getForm()->getData());
         } else {
             $response = $this->renderResponse('CCDNForumForumBundle:User:Topic/create.html.', array(
                 'crumbs' => $this->getCrumbs()->addUserTopicCreate($forum, $board), 'forum' => $forum, 'board' => $board,
@@ -136,7 +137,7 @@ class UserTopicController extends UserTopicBaseController
         else {
             $postToQuote = null;
         }
-        $this->isAuthorised('ROLE_USER');
+        $this->isAuthorised('IS_AUTHENTICATED_REMEMBERED');
         $this->isFound($forum = $this->getForumModel()->findOneForumByName($forumName));
         $this->isFound($topic = $this->getTopicModel()->findOneTopicByIdWithPosts($topicId, true));
         $this->isAuthorised($this->getAuthorizer()->canReplyToTopic($topic, $forum));
@@ -163,7 +164,7 @@ class UserTopicController extends UserTopicBaseController
      */
     public function replyProcessAction($forumName, $topicId)
     {
-        $this->isAuthorised('ROLE_USER');
+        $this->isAuthorised('IS_AUTHENTICATED_REMEMBERED');
         $this->isFound($forum = $this->getForumModel()->findOneForumByName($forumName));
         $this->isFound($topic = $this->getTopicModel()->findOneTopicByIdWithPosts($topicId, true));
         $this->isAuthorised($this->getAuthorizer()->canReplyToTopic($topic, $forum));

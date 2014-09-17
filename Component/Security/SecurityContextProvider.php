@@ -114,7 +114,7 @@ class Authorizer
             return false;
         }
 
-        if (! $this->securityContext->isGranted('ROLE_USER')) {
+        if (! $this->securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
             return false;
         }
 
@@ -131,7 +131,7 @@ class Authorizer
             return false;
         }
 
-        if (! $this->securityContext->isGranted('ROLE_USER')) {
+        if (! $this->securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
             return false;
         }
 
@@ -322,7 +322,7 @@ class Authorizer
 
     public function canEditPost(Post $post, Forum $forum = null)
     {
-        if (! $this->securityContext->isGranted('ROLE_USER')) {
+        if (! $this->securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
             return false;
         }
 
@@ -355,7 +355,7 @@ class Authorizer
             return false;
         }
 
-        if (! $this->securityContext->isGranted('ROLE_USER')) {
+        if (! $this->securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
             return false;
         }
 
@@ -435,7 +435,7 @@ class Authorizer
 
     public function canSubscribeToTopic(Topic $topic, Forum $forum = null, Subscription $subscription = null)
     {
-        if (! $this->securityContext->isGranted('ROLE_USER')) {
+        if (! $this->securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
             return false;
         }
 
@@ -460,7 +460,7 @@ class Authorizer
 
     public function canUnsubscribeFromTopic(Topic $topic, Forum $forum = null, Subscription $subscription = null)
     {
-        if (! $this->securityContext->isGranted('ROLE_USER')) {
+        if (! $this->securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
             return false;
         }
 

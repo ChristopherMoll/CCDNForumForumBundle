@@ -51,7 +51,7 @@ class DashboardIntegrator
                         ->setLabel('dashboard.links.forum', array(), 'CCDNForumForumBundle')
                     ->end()
                     ->addLink('forum_subscriptions')
-                        ->setAuthRole('ROLE_USER')
+                        ->setAuthRole('IS_AUTHENTICATED_REMEMBERED')
                         ->setRoute('ccdn_forum_user_subscription_index', array('forumName' => '~'))
                         ->setIcon('/bundles/ccdncomponentcommon/images/icons/Black/32x32/32x32_bookmark.png')
                         ->setLabel('dashboard.links.subscriptions', array(), 'CCDNForumForumBundle')

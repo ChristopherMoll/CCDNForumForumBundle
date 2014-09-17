@@ -44,7 +44,7 @@ class UserPostController extends UserPostBaseController
         $this->isFound($post = $this->getPostModel()->findOnePostByIdWithTopicAndBoard($postId, true));
         $this->isAuthorised($this->getAuthorizer()->canShowPost($post, $forum));
 
-        if ($this->isGranted('ROLE_USER')) { // get the topic subscriptions.
+        if ($this->isGranted('IS_AUTHENTICATED_REMEMBERED')) { // get the topic subscriptions.
             $subscription = $this->getSubscriptionModel()->findOneSubscriptionForTopicByIdAndUserById($post->getTopic()->getId(), $this->getUser()->getId());
         } else {
             $subscription = null;
@@ -70,7 +70,7 @@ class UserPostController extends UserPostBaseController
      */
     public function editAction($forumName, $postId)
     {
-        $this->isAuthorised('ROLE_USER');
+        $this->isAuthorised('IS_AUTHENTICATED_REMEMBERED');
         $this->isFound($forum = $this->getForumModel()->findOneForumByName($forumName));
         $this->isFound($post = $this->getPostModel()->findOnePostByIdWithTopicAndBoard($postId, true));
         $this->isAuthorised($this->getAuthorizer()->canEditPost($post, $forum));
@@ -98,7 +98,7 @@ class UserPostController extends UserPostBaseController
      */
     public function editProcessAction($forumName, $postId)
     {
-        $this->isAuthorised('ROLE_USER');
+        $this->isAuthorised('IS_AUTHENTICATED_REMEMBERED');
         $this->isFound($forum = $this->getForumModel()->findOneForumByName($forumName));
         $this->isFound($post = $this->getPostModel()->findOnePostByIdWithTopicAndBoard($postId, true));
         $this->isAuthorised($this->getAuthorizer()->canEditPost($post, $forum));
@@ -127,7 +127,7 @@ class UserPostController extends UserPostBaseController
      */
     public function deleteAction($forumName, $postId)
     {
-        $this->isAuthorised('ROLE_USER');
+        $this->isAuthorised('IS_AUTHENTICATED_REMEMBERED');
         $this->isFound($forum = $this->getForumModel()->findOneForumByName($forumName));
         $this->isFound($post = $this->getPostModel()->findOnePostByIdWithTopicAndBoard($postId, true));
         $this->isAuthorised($this->getAuthorizer()->canDeletePost($post, $forum));
@@ -153,7 +153,7 @@ class UserPostController extends UserPostBaseController
      */
     public function deleteProcessAction($forumName, $postId)
     {
-        $this->isAuthorised('ROLE_USER');
+        $this->isAuthorised('IS_AUTHENTICATED_REMEMBERED');
         $this->isFound($forum = $this->getForumModel()->findOneForumByName($forumName));
         $this->isFound($post = $this->getPostModel()->findOnePostByIdWithTopicAndBoard($postId, true));
         $this->isAuthorised($this->getAuthorizer()->canDeletePost($post, $forum));

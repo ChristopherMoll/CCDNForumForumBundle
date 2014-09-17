@@ -32,7 +32,7 @@
 
 
 
-		{%- if is_granted('ROLE_USER') -%}
+		{%- if is_granted('IS_AUTHENTICATED_REMEMBERED') -%}
 			{%- if route|slice(0,28) == 'ccdn_forum_user_subscription' -%}
 				{%- include 'CCDNForumForumBundle:Common:Layout/Sidebar/Partial/user_subscriptions.html.twig' -%}
 			{%- endif -%}

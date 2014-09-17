@@ -39,7 +39,7 @@
 				</a>
 			</li>
 
-			{%- if is_granted('ROLE_USER') -%}
+			{%- if is_granted('IS_AUTHENTICATED_REMEMBERED') -%}
 				<li
 					{%- if route|slice(0,28) == 'ccdn_forum_user_subscription' %} class="selected"{%- endif -%}>
 						{%- if forum is defined and forum is not null -%}

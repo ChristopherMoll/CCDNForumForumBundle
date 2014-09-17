@@ -106,7 +106,7 @@ class StatListener implements EventSubscriberInterface
      */
     public function onTopicCreateComplete(UserTopicEvent $event)
     {
-        $this->updateBoardStats($this->extractBoardFromTopic($event->getTopic()));
+        $this->updateBoardStats($event->getTopic()->getBoard());
         $this->updateRegistryStats($event->getTopic()->getFirstPost());
     }
 
@@ -182,26 +182,22 @@ class StatListener implements EventSubscriberInterface
      */
     protected function updateBoardStats(BoardInterface $board)
     {
-        if ($board) {
-            if ($board->getId()) {
-                $stats = $this->topicModel->getTopicAndPostCountForBoardById($board->getId());
+        $stats = $this->topicModel->getTopicAndPostCountForBoardById($board->getId());
 
-                // set the board topic / post count
-                $board->setCachedTopicCount($stats['topicCount']);
-                $board->setCachedPostCount($stats['postCount']);
+        // set the board topic / post count
+        $board->setCachedTopicCount($stats['topicCount']);
+        $board->setCachedPostCount($stats['postCount']);
 
-                $lastTopic = $this->topicModel->findLastTopicForBoardByIdWithLastPost($board->getId());
+        $lastTopic = $this->topicModel->findLastTopicForBoardByIdWithLastPost($board->getId());
 
-                // set last_post for board
-                if ($lastTopic) {
-                    $board->setLastPost($lastTopic->getLastPost() ?: null);
-                } else {
-                    $board->setLastPost(null);
-                }
-
-                $this->boardModel->updateBoard($board);
-            }
+        // set last_post for board
+        if ($lastTopic) {
+            $board->setLastPost($lastTopic->getLastPost() ?: null);
+        } else {
+            $board->setLastPost(null);
         }
+
+        $this->boardModel->updateBoard($board);
     }
 
     /**
@@ -212,13 +208,7 @@ class StatListener implements EventSubscriberInterface
      */
     private function extractBoardFromTopic(TopicInterface $topic)
     {
-        if ($topic) {
-            if ($topic->getId()) {
-                return $topic->getBoard();
-            }
-        }
-
-        return null;
+        return $topic->getBoard();
     }
 
     /**
