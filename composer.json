@@ -2,7 +2,7 @@
     "name": "codeconsortium/ccdn-forum-bundle",
     "description": "CCDN Forum Bundle",
     "keywords": ["ccdn", "codeconsortium", "forum", "board"],
-    "homepage": "http://github.com/codeconsortium/CCDNForumForumBundle",
+    "homepage": "http://github.com/ChristopherMoll/CCDNForumForumBundle",
     "type": "symfony-bundle",
     "license": "MIT",
     "authors": [
@@ -10,15 +10,19 @@
             "name": "Reece Fowell",
             "email": "reece@codeconsortium.com",
             "homepage": "http://www.reecefowell.com"
+        },
+        {
+            "name": "Chris Moll",
+            "email": "senormoll@gmail.com"
         }
     ],
     "minimum-stability": "dev",
     "require": {
         "php": ">=5.3.3",
-        "symfony/symfony": "2.4.*",
+        "symfony/symfony": "~2.4",
         "doctrine/orm": "~2.2,>=2.2.3",
         "doctrine/doctrine-bundle": "~1.2",
-        "knplabs/knp-paginator-bundle": "2.4.*"
+        "knplabs/knp-paginator-bundle": "~2.4"
     },
     "require-dev": {
         "symfony/swiftmailer-bundle": "~2.3",
